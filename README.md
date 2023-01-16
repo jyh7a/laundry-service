@@ -30,8 +30,8 @@
 | nickname        | varchar(255)    | 닉네임                            |
 | phoneNumber     | varchar(255)    | 전화번호                           |
 | address         | varchar(255)    | 집주소                            |
-| laundryPicture  | varchar(255)    | 섹탁물 사진                        |
-| laundryRequest  | TEXT            | 섹탁물 요청 사항                    |
+| laundryPicture  | varchar(255)    | 세탁물 사진                        |
+| laundryRequest  | TEXT            | 세탁물 요청 사항                    |
 | userType        | int unsigned    | 0 - 손님, 1 - 사장님               |
 | createdAt       | datetime        | 유저 생성 시간                      |
 | updatedAt       | datetime        | 유저 업데이트 시간                   |
