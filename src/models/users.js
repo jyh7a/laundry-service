@@ -9,18 +9,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // models.hasMany(models.Orders, { foreignKey: "userId", as: "orders" });
-      // models.hasMany(models.Shops, { foreignKey: "userId", as: "orders" });
+      Users.hasMany(models.Services, {
+        foreignKey: "userId",
+        as: "services",
+      });
+      Users.hasMany(models.Reviews, {
+        foreignKey: "userId",
+        as: "reviews",
+      });
     }
   }
   Users.init(
     {
-      password: DataTypes.STRING,
-      point: DataTypes.BIGINT,
-      nickname: DataTypes.STRING,
-      phoneNumber: DataTypes.STRING,
-      address: DataTypes.STRING,
-      userType: DataTypes.INTEGER,
+      password: DataTypes.STRING(255),
+      point: DataTypes.BIGINT.UNSIGNED,
+      nickname: DataTypes.STRING(255),
+      phoneNumber: DataTypes.STRING(255),
+      address: DataTypes.STRING(255),
+      userType: {
+        type:DataTypes.BIGINT.UNSIGNED,
+        comment:"0 - 손님, 1 - 사장님"
+      }
     },
     {
       sequelize,

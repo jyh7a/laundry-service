@@ -2,32 +2,30 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Orders', {
+    await queryInterface.createTable('Reviews', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT.UNSIGNED
       },
       userId: {
-        type: Sequelize.BIGINT,
+        allowNull:false,
+        type: Sequelize.BIGINT.UNSIGNED,
         references: { model: "Users", key: "id" },
-      },  
-      shopId: {
-        type: Sequelize.BIGINT,
-        references: { model: "Shops", key: "id" },
       },
-      status: {
-        type: Sequelize.INTEGER
+      serviceId: {
+        allowNull:false,
+        type: Sequelize.BIGINT.UNSIGNED,
+        references: { model: "Services", key: "id" },
       },
-      due_date: {
-        type: Sequelize.DATE
-      },
-      laundryPicture: {
-        type: Sequelize.STRING
-      },
-      laundryRequest: {
+      comment: {
+        allowNull:false,
         type: Sequelize.TEXT
+      },
+      rating: {
+        allowNull:false,
+        type: Sequelize.BIGINT.UNSIGNED
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Orders');
+    await queryInterface.dropTable('Reviews');
   }
 };

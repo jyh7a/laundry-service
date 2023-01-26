@@ -1,3 +1,8 @@
+# Notion List
+- 1월 26(목) -  ERD(수정), API, 추가 모듈 설치(https://www.notion.so/teamsparta/1-26-ERD-API-6845736f8a58437ca4b0c018580e2bc9)
+
+<br/>
+
 # Link list
 
 - 과제 요구사항 - <https://www.notion.so/teamsparta/221230-4-58854b5f72d84d13aa7dcd67b922b81c>
@@ -7,6 +12,9 @@
 
 <br/>
 
+# 링크 말고는 Notion에 업데이트!
+
+<br/>
 # ERD
 
 ## <a href="https://ryulstudy.tistory.com/48" target="_blank">ERD 그리기</a>
@@ -53,7 +61,7 @@
 
 <br>
 
-### Shops
+### Shops - DELETE
 
 | name             | type            | desc                        |
 | ---------------- | --------------- | --------------------------- |
@@ -158,19 +166,19 @@
   - Users
 
     ```bash
-    sequelize model:generate --name Users --attributes password:string,point:bigint,nickname:string,phoneNumber:string,address:string,userType:integer
+    sequelize model:generate --name Users --attributes password:string,point:bigint,nickname:string,phoneNumber:string,address:string,userType:bigint
     ```
 
-  - Orders
-
+  - Services
+ 
     ```bash
-    sequelize model:generate --name Orders --attributes userId:bigint,shopId:bigint,status:integer,due_date:date,laundryPicture:string,laundryRequest:text
+    sequelize model:generate --name Services --attributes nickname:string,userId:bigint,phoneNumber:string,address:string,laundryPicture:string,laundryRequest:text,point:bigint,status:bigint
     ```
 
-  - Shops
+  - Reviews
 
     ````bash
-    sequelize model:generate --name Shops --attributes name:string,phoneNumber:string,location:string,userId:bigint,    ```
+    sequelize model:generate --name Reviews --attributes userId:bigint,serviceId:bigint,comment:text,rating:bigint
     ````
 
 - sequelize db:migrate
@@ -180,5 +188,5 @@
   ```
 
 # 참고 자료
-
 - Layered Pattern - https://han-py.tistory.com/443
+- 

@@ -1,11 +1,12 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 
-const routes = require('./src/routes');
+const routes = require("./src/routes");
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+// require("dotenv").config({path:__dirname + '/src/.env'});
 require("dotenv").config();
 
 app.get("/", (req, res) => {
@@ -14,11 +15,16 @@ app.get("/", (req, res) => {
 
 app.use("/api", [routes]);
 
+app.use(function (req, res, next) {
+  res.status(404).send("Sorry, that page doesn't exist!");
+  next();
+});
+
 app.use((err, req, res, next) => {
   res.status(err.status || 500).send({
     code: 10,
     message: err.message || "처리되지 않은 에러 발생!",
-    error: err
+    error: err,
   });
 });
 

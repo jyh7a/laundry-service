@@ -7,25 +7,33 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT,
+        type: Sequelize.BIGINT.UNSIGNED,
       },
       password: {
-        type: Sequelize.STRING,
+        allowNull: false,
+        type: Sequelize.STRING(255),
       },
       point: {
-        type: Sequelize.BIGINT,
+        allowNull: false,
+        type: Sequelize.BIGINT.UNSIGNED,
       },
       nickname: {
-        type: Sequelize.STRING,
+        allowNull: false,
+        type: Sequelize.STRING(255),
       },
       phoneNumber: {
-        type: Sequelize.STRING,
+        allowNull: false,
+        type: Sequelize.STRING(255),
       },
       address: {
-        type: Sequelize.STRING,
+        allowNull: false,
+        type: Sequelize.STRING(255),
       },
       userType: {
-        type: Sequelize.INTEGER,
+        allowNull: false,
+        type: Sequelize.BIGINT.UNSIGNED,
+        defaultValue: 0,
+        comment:"0 - 손님, 1 - 사장님"
       },
       createdAt: {
         allowNull: false,

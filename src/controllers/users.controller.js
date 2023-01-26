@@ -5,8 +5,16 @@ class UsersController {
 
   register = async (req, res, next) => {
     try {
-      const { password, point, nickname, phoneNumber, address, userType } = req.body;
-      const user = await this.userService.register(password, point, nickname, phoneNumber, address, userType);
+      const { password, point, nickname, phoneNumber, address, userType } =
+        req.body;
+      const user = await this.userService.register(
+        password,
+        point,
+        nickname,
+        phoneNumber,
+        address,
+        userType
+      );
       res.status(201).json({ data: user });
     } catch (error) {
       next(error);
