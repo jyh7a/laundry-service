@@ -4,11 +4,10 @@ const { Users } = require("../models");
 class UserService {
   userRepository = new UserRepository(Users);
 
-  register = async (password, point, nickname, phoneNumber, address, userType) => {
+  signup = async (password, nickname, phoneNumber, address, userType) => {
     try {
       const user = await this.userRepository.createUser(
         password,
-        point,
         nickname,
         phoneNumber,
         address,
@@ -22,8 +21,12 @@ class UserService {
 
   login = async (nickname, password) => {
     try {
-      const user = await this.userRepository.loginUser(username, password);
-      return user;
+      const user = await this.userRepository.login(nickname, password);
+      if (user) {
+        return user;
+      } else {
+        return 0;
+      }
     } catch (err) {
       throw err;
     }
@@ -38,18 +41,18 @@ class UserService {
     }
   };
 
-  findUserById = async (userId) => {
+  findUser = async (userId) => {
     try {
-      const user = await this.userRepository.findUserById(userId);
+      const user = await this.userRepository.findUser(userId);
       return user;
     } catch (err) {
       throw err;
     }
   };
 
-  updateUserById = async (userId, password, nickname, phoneNumber, address) => {
+  updateUser = async (userId, password, nickname, phoneNumber, address) => {
     try {
-      const updatedUser = await this.userRepository.updateUserById(
+      const updatedUser = await this.userRepository.updateUser(
         userId,
         password,
         nickname,
@@ -62,9 +65,9 @@ class UserService {
     }
   };
 
-  deleteUserById = async (userId) => {
+  deleteUser = async (userId) => {
     try {
-      const deletedUser = await this.userRepository.deleteUserById(userId);
+      const deletedUser = await this.userRepository.deleteUser(userId);
       return deletedUser;
     } catch (err) {
       throw err;

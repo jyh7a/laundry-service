@@ -46,7 +46,7 @@ class UserRepository {
     }
   };
 
-  findUserById = async (userId) => {
+  findUser = async (userId) => {
     try {
       const user = await this.userModel.findByPk(userId);
       return user;
@@ -55,7 +55,7 @@ class UserRepository {
     }
   };
 
-  updateUserById = async (userId, password, nickname, phoneNumber, address) => {
+  updateUser = async (userId, password, nickname, phoneNumber, address) => {
     try {
       const updated = await this.userModel.update(
         { password, nickname, phoneNumber, address },
@@ -71,7 +71,7 @@ class UserRepository {
     }
   };
 
-  deleteUserById = async (userId) => {
+  deleteUser = async (userId) => {
     try {
       const deleted = await this.userModel.destroy({ where: { userId } });
       if (deleted) {
