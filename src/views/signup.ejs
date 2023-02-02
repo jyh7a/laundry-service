@@ -12,15 +12,95 @@
   </head>
   <body>
     <%-include('./components/header.ejs') %>
-    <%-include('./components/sidebar.ejs') %>
 
     <div id="content">
-      <h1>유저 페이지</h1>
-      <table id="table"></table>
+      <h1>회원가입 페이지</h1>
+      <form id="form" action="">
+        <div>
+          <div>사진:</div>
+          <input id="image" type="file" name="image" accept="image/*" />
+        </div>
+        <div>
+          <div>닉네임:</div>
+          <input id="nickname" type="text" name="nickname" />
+        </div>
+        <div>
+          <div>패스워드:</div>
+          <input id="password" type="password" name="password" />
+        </div>
+        <div>
+          <div>전화번호:</div>
+          <input id="phoneNumber" type="text" name="phoneNumber" />
+        </div>
+        <div>
+          <div>주소:</div>
+          <input id="address" type="text" name="address" />
+        </div>
+        <div>
+          <div>유저 타입:</div>
+          <input type="radio" id="customer" name="userType" value="0" />
+          <label for="customer">고객</label>
+          <input type="radio" id="boss" name="userType" value="1" />
+          <label for="boss">사장님</label>
+        </div>
+        <button type="submit">가입하기</button>
+      </form>
     </div>
 
     <%-include('./components/footer.ejs') %>
 
-    <script></script>
+    <script>
+      // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
+      (async () => {
+        const userInfo = await getUserInfo();
+        console.log({ userInfo });
+        const isLogin = !!userInfo;
+        console.log({ isLogin });
+
+        createHeaderButton(isLogin);
+
+        form.addEventListener("submit", async (e) => {
+          try {
+            e.preventDefault();
+            const image = document.getElementById("image").files[0];
+            const nickname = document.getElementById("nickname").value;
+            const password = document.getElementById("password").value;
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            const address = document.getElementById("address").value;
+            const userType = document.querySelector(
+              "input[name=userType]:checked"
+            ).value;
+
+            const formData = new FormData();
+            formData.append("image", image);
+            formData.append("nickname", nickname);
+            formData.append("password", password);
+            formData.append("phoneNumber", phoneNumber);
+            formData.append("address", address);
+            formData.append("userType", userType);
+
+            const res = await axios
+              .post("http://localhost:3000/api/signup", formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              })
+              .then(function (response) {
+                if (response?.status === 201) {
+                  window.location.href = "/login";
+                }
+              })
+              .catch(function (error) {
+                if (error?.response?.data?.message) {
+                  alert(error.response.data.message);
+                }
+                console.log(error.message);
+              });
+          } catch (error) {
+            console.error(error.message);
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

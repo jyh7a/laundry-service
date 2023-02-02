@@ -141,19 +141,18 @@ a {
 }
 
 /* common */
-.signup-btn {
-  border: 1px solid black;
-  border-radius: 10px;
-  width: 100px;
-  height: 50px;
+
+.flex-box {
   display: flex;
-  align-items: center;
 }
 
-.signup-btn a {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.user-img {
+  width: 100px;
+}
+
+.auth-box button {
+  width: 150px;
+  margin: 0 20px;
 }
 
 /* header */
@@ -168,6 +167,48 @@ a {
 
 #header .logo img {
   width: 200px;
+}
+
+#header .header-button {
+  display: flex;
+  gap: 20px;
+}
+
+#header .header-button .btn {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 100px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+#header .header-button a {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* body */
+.body {
+  display: flex;
+}
+
+/* sidebar */
+.sidebar {
+  width: 200px;
+  background-color: #1e90ff3b;
+}
+
+.sidebar ul li {
+  font-size: 2rem;
+  padding: 15px;
+  box-shadow: inset 4px 3px 12px 0px #6793b2;
+}
+
+/* content-wrapper */
+#content-wrapper {
+  width: 100%;
 }
 
 /* content */
@@ -191,8 +232,18 @@ a {
 #form input,
 button {
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 20px;
   border-color: dodgerblue;
+}
+
+#form > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#form > div > div {
+  width: 80px;
 }
 
 /* table */
@@ -207,6 +258,8 @@ th {
   border: 1px solid #1e90ff3b;
   text-align: left;
   padding: 8px;
+  width: 50%;
+  vertical-align: middle;
 }
 
 tr:nth-child(even) {

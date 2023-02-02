@@ -1,24 +1,28 @@
+const { sequelize } = require("../models");
+
 class UserRepository {
   constructor(userModel) {
     this.userModel = userModel;
   }
 
   createUser = async (
-    password,
-    point,
+    userImage,
     nickname,
+    password,
     phoneNumber,
     address,
-    userType
+    userType,
+    point
   ) => {
     try {
       const user = await this.userModel.create({
-        password,
-        point,
+        userImage,
         nickname,
+        password,
         phoneNumber,
         address,
         userType,
+        point,
       });
       return user;
     } catch (error) {
@@ -46,9 +50,49 @@ class UserRepository {
     }
   };
 
-  findUser = async (userId) => {
+  findUserByPk = async (id) => {
     try {
-      const user = await this.userModel.findByPk(userId);
+      const user = await this.userModel.findByPk(id);
+      return user;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  findUser = async (nickname) => {
+    try {
+      // 유저정보 + 신청 서비스 개수 + 작성한 리뷰 개수 가져오기 위해서
+      // raw query or sequelize 함수 사용
+      // 아래 코드는 raw query 사용.
+      const [result, metadata] = await sequelize.query(`
+        SELECT u.id , u.userImage , u.point , u.nickname , u.phoneNumber , u.address , u.userType , 
+        DATE_FORMAT(DATE_ADD(u.createdAt, INTERVAL 9 HOUR), '%Y-%m-%d %H:%i:%s') AS createdAt,
+        COALESCE(usrc.servicesCount, usrc.servicesCount, 0) AS servicesCount,
+        COALESCE(usrc.reviewsCount, usrc.reviewsCount, 0) AS reviewsCount
+        FROM Users u 
+        LEFT JOIN (
+            SELECT usc.*, urc.reviewsCount
+            FROM (
+                SELECT u.id, COUNT(u.id) AS servicesCount 
+                FROM Users u 
+                INNER JOIN Services s ON u.id = s.userId
+                GROUP BY u.id
+            ) AS usc
+            LEFT JOIN (
+                SELECT u.id, COUNT(u.id) AS reviewsCount
+                FROM Users u 
+                INNER JOIN Reviews r ON u.id = r.userId  
+                GROUP BY u.id
+            ) AS urc
+            ON usc.id = urc.id
+        ) AS usrc
+        ON u.id = usrc.id
+        WHERE nickname = "${nickname}"
+     `);
+
+      // const user = await this.userModel.findByPk(nickname);
+      // const user = await this.userModel.findOne({ where: { nickname } });
+      const [user] = result;
       return user;
     } catch (error) {
       throw new Error(error);

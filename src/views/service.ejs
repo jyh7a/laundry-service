@@ -17,8 +17,7 @@
       <%-include('./components/sidebar.ejs') %>
       <div id="content-wrapper">
         <div id="content">
-          <h1>유저 페이지</h1>
-          <table id="table"></table>
+          <h1>서비스 페이지</h1>
         </div>
       </div>
     </div>
@@ -33,13 +32,14 @@
         const isLogin = !!userInfo;
         console.log({ isLogin });
 
-        // 로그인을 해서 userInfo(nickname)이 있으면
-        // 유저 정보를 요청한다.
+        // 유저 정보가 있으면
+        // 해당 사용자의 모든 서비스 요청
         if (userInfo) {
-          const table = document.getElementById("table");
-          const user = await getUser(userInfo);
+          // const table = document.getElementById("table");
+          const services = await getServices();
+          console.log({ services });
           // 유저 테이블을 그려준다.
-          createUserTable(table, user);
+          // createUserTable(table, user);
         }
 
         createHeaderButton(isLogin);

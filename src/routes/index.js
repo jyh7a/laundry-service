@@ -1,29 +1,29 @@
 const express = require("express");
 const router = express.Router();
+
 const { upload } = require("../util/multer.util");
+const { auth_middleware } = require("../middleware/auth.middleware");
+
+const usersRouter = require("./users.routes");
+const servicesRouter = require("./services.routes");
 
 const UsersController = require("../controllers/users.controller");
 const usersController = new UsersController();
 
-// user sequelize test END
-
-// 프론트 form 데이터 받기 테스트
-router.post("/test", upload.single("image"), (req, res) => {
-  const data = req.body;
-  console.log(data);
-  console.log(req.file.path);
-  // Save the data to the database with Sequelize
-  res.send("Data received");
-});
-// 프론트 form 데이터 받기 테스트 END
-
 // 로그인
 router.post("/login", usersController.login);
 
-// 회원 가입
-router.post("/signup", usersController.signup);
+// 로그아웃
+router.get("/logout", usersController.logout);
 
-const usersRouter = require("./users.routes");
+// 회원 가입
+router.post(
+  "/signup",
+  upload("upload-images/users").single("image"),
+  usersController.signup
+);
+
 router.use("/users", usersRouter);
+router.use("/services", auth_middleware, servicesRouter);
 
 module.exports = router;

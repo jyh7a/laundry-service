@@ -9,6 +9,7 @@ var io = require("socket.io")(server);
 
 const routes = require("./src/routes");
 const pageRoutes = require("./src/routes/pages.routes");
+const { logError } = require("./src/util/logger.util");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -74,15 +75,27 @@ io.on("connection", function (socket) {
 });
 
 app.use(function (req, res, next) {
-  res.status(404).send("Sorry, that page doesn't exist!");
+  // console.log("req.url: ", req.url);
+  res.render("notfound");
+
+  // 기존 코드
+  // res.status(404).send("Sorry, that page doesn't exist!");
   next();
 });
 
-app.use((err, req, res, next) => {
-  res.status(err.status || 500).send({
+app.use((error, req, res, next) => {
+  // test => findUserInfo
+  // 로그인 후 유저페이지에서 에러발생 시켜보기
+  logError(error);
+  // console.log("[error]: ", error.message);
+  // res.status(error.status || 500);
+
+  // 기존 코드
+  res.status(error.status || 500).send({
+    // code 10은 테스트 용으로 넣어둠
     code: 10,
-    message: err.message || "처리되지 않은 에러 발생!",
-    error: err,
+    message: error.message || "처리되지 않은 에러 발생!",
+    error,
   });
 });
 

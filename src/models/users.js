@@ -21,15 +21,22 @@ module.exports = (sequelize, DataTypes) => {
   }
   Users.init(
     {
+      userImage: {
+        defaultValue: "/images/default-user.jpg",
+        type: DataTypes.STRING(255),
+      },
       password: DataTypes.STRING(255),
       point: DataTypes.BIGINT.UNSIGNED,
-      nickname: DataTypes.STRING(255),
+      nickname: {
+        unique: true,
+        type: DataTypes.STRING(255),
+      },
       phoneNumber: DataTypes.STRING(255),
       address: DataTypes.STRING(255),
       userType: {
-        type:DataTypes.BIGINT.UNSIGNED,
-        comment:"0 - 손님, 1 - 사장님"
-      }
+        type: DataTypes.BIGINT.UNSIGNED,
+        comment: "0 - 손님, 1 - 사장님",
+      },
     },
     {
       sequelize,

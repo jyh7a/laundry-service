@@ -6,10 +6,10 @@ async function auth_middleware(req, res, next) {
     // console.log(req.cookies.jwt);
 
     // 1. 쿠키가 있는지 => 없으면 로그인후 사용 가능한 api 메세지 주면서 리턴
-    // 2. 쿠키에 jwt 있는지 => 없으면 로그인후 사용 가능한 api 메세지 주면서 리턴
+    // 2. 쿠키에 jwt 있는지 => 없으면 에러코드 전달
     if (!req.cookies || !req.cookies.jwt) {
-      return res.status(400).render("index");
-      // return res.status(400).send({ message: "로그인 후 사용 가능한 api" });
+      return res.status(404).redirect("/");
+      // return res.status(404).send({ message: "로그인 후 사용 가능한 api" });
     }
 
     const token = req.cookies.jwt;

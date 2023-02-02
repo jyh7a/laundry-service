@@ -4,14 +4,29 @@ const { Users } = require("../models");
 class UserService {
   userRepository = new UserRepository(Users);
 
-  signup = async (password, nickname, phoneNumber, address, userType) => {
+  signup = async (
+    userImage,
+    nickname,
+    password,
+    phoneNumber,
+    address,
+    userType
+  ) => {
     try {
+      // 중복 유저 체크(닉네임)
+      // 여기서 해줘도 되고
+      // db에 유니크를 제약조건을 걸어둬서 그걸로 체크해도 괜찮다.
+      // 이번 예제에서는 db에서 체크 하는걸로
+
+      const point = parseInt(userType, 10) === 0 ? 1000000 : 0;
       const user = await this.userRepository.createUser(
-        password,
+        userImage,
         nickname,
+        password,
         phoneNumber,
         address,
-        userType
+        userType,
+        point
       );
       return user;
     } catch (err) {
@@ -41,9 +56,20 @@ class UserService {
     }
   };
 
-  findUser = async (userId) => {
+  // cookies jwt 확인 후 있으면
+  // user nickname만 돌려준다.
+  findUserInfo = async (id) => {
     try {
-      const user = await this.userRepository.findUser(userId);
+      const { nickname } = await this.userRepository.findUserByPk(id);
+      return nickname;
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  findUser = async (nickname) => {
+    try {
+      const user = await this.userRepository.findUser(nickname);
       return user;
     } catch (err) {
       throw err;
