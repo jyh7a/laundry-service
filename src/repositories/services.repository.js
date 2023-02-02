@@ -24,7 +24,6 @@ class ServiceRepository {
     userId,
     laundryImage,
     laundryRequest,
-    nickname,
     phoneNumber,
     address
   ) => {
@@ -34,7 +33,6 @@ class ServiceRepository {
         userId,
         laundryImage,
         laundryRequest,
-        nickname,
         phoneNumber,
         address,
       });

@@ -60,8 +60,8 @@ class UserService {
   // user nickname만 돌려준다.
   findUserInfo = async (id) => {
     try {
-      const { nickname } = await this.userRepository.findUserByPk(id);
-      return nickname;
+      const user = await this.userRepository.findUserByPk(id);
+      return user;
     } catch (err) {
       throw err;
     }

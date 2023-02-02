@@ -58,7 +58,7 @@ const getUserInfo = async () => {
 };
 
 // 유저 정보 요청
-const getUser = async (nickname) => {
+const getUser = async ({ nickname }) => {
   try {
     const response = await axios.get(
       `http://localhost:3000/api/users/${nickname}`
@@ -86,7 +86,9 @@ const getUser = async (nickname) => {
 // 해당 유저의 모든 서비스 정보 요청
 const getServices = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/services}`);
+    const response = await axios.get(
+      `http://localhost:3000/api/services?status=completed`
+    );
     return response.data;
   } catch (error) {
     return 0;

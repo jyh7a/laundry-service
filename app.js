@@ -87,7 +87,7 @@ app.use((error, req, res, next) => {
   // test => findUserInfo
   // 로그인 후 유저페이지에서 에러발생 시켜보기
   logError(error);
-  // console.log("[error]: ", error.message);
+  console.log("[error]: ", error);
   // res.status(error.status || 500);
 
   // 기존 코드

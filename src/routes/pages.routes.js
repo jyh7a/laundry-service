@@ -50,4 +50,13 @@ router.get("/services", (req, res) => {
   }
 });
 
+// 서비스 폼 페이지
+router.get("/services/form", (req, res) => {
+  try {
+    return res.render("service-form");
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 module.exports = router;

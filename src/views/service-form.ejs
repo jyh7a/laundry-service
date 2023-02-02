@@ -13,39 +13,42 @@
   <body>
     <%-include('./components/header.ejs') %>
 
-    <div id="content">
-      <h1>회원가입 페이지</h1>
-      <form id="form" action="">
-        <div>
-          <div>사진:</div>
-          <input id="image" type="file" name="image" accept="image/*" />
-        </div>
-        <div>
-          <div>닉네임:</div>
-          <input id="nickname" type="text" name="nickname" />
-        </div>
-        <div>
-          <div>패스워드:</div>
-          <input id="password" type="password" name="password" />
-        </div>
-        <div>
-          <div>전화번호:</div>
-          <input id="phoneNumber" type="text" name="phoneNumber" />
-        </div>
-        <div>
-          <div>주소:</div>
-          <input id="address" type="text" name="address" />
-        </div>
-        <div>
-          <div>유저 타입:</div>
-          <input type="radio" id="customer" name="userType" value="0" />
-          <label for="customer">고객</label>
-          <input type="radio" id="boss" name="userType" value="1" />
-          <label for="boss">사장님</label>
-        </div>
+    <div class="body">
+      <%-include('./components/sidebar.ejs') %>
+      <div id="content-wrapper">
+        <div id="content">
+          <h1>서비스 신청페이지</h1>
 
-        <button type="submit">가입하기</button>
-      </form>
+          <form id="form" action="">
+            <div>
+              <div>사진:</div>
+              <input id="image" type="file" name="image" accept="image/*" />
+            </div>
+            <div>
+              <div>요구사항:</div>
+              <input id="requests" type="text" name="requests" />
+            </div>
+            <div>
+              <div>닉네임:</div>
+              <input id="nickname" type="text" name="nickname" readonly />
+            </div>
+            <div>
+              <div>잔여 포인트:</div>
+              <input id="point" type="text" name="point" readonly />
+            </div>
+            <div>
+              <div>전화번호:</div>
+              <input id="phoneNumber" type="text" name="phoneNumber" />
+            </div>
+            <div>
+              <div>주소:</div>
+              <input id="address" type="text" name="address" />
+            </div>
+
+            <button type="submit">신천 완료</button>
+          </form>
+        </div>
+      </div>
     </div>
 
     <%-include('./components/footer.ejs') %>
@@ -59,36 +62,39 @@
         console.log({ isLogin });
 
         createHeaderButton(isLogin);
+        console.log(userInfo);
+        const nickname = document.getElementById("nickname");
+        const point = document.getElementById("point");
+
+        nickname.value = userInfo.nickname;
+        point.value = userInfo.point;
 
         form.addEventListener("submit", async (e) => {
           try {
             e.preventDefault();
+
             const image = document.getElementById("image").files[0];
+            const requests = document.getElementById("requests").value;
             const nickname = document.getElementById("nickname").value;
-            const password = document.getElementById("password").value;
             const phoneNumber = document.getElementById("phoneNumber").value;
             const address = document.getElementById("address").value;
-            const userType = document.querySelector(
-              "input[name=userType]:checked"
-            ).value;
 
             const formData = new FormData();
             formData.append("image", image);
+            formData.append("laundryRequest", requests);
             formData.append("nickname", nickname);
-            formData.append("password", password);
             formData.append("phoneNumber", phoneNumber);
             formData.append("address", address);
-            formData.append("userType", userType);
 
             const res = await axios
-              .post("http://localhost:3000/api/signup", formData, {
+              .post("http://localhost:3000/api/services", formData, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
               })
               .then(function (response) {
                 if (response?.status === 201) {
-                  window.location.href = "/login";
+                  window.location.href = "/services";
                 }
               })
               .catch(function (error) {

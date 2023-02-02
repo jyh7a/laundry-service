@@ -1,4 +1,4 @@
-const serviceService = require("../services/users.service");
+const serviceService = require("../services/services.service");
 
 class servicesController {
   userService = new serviceService();
@@ -10,10 +10,10 @@ class servicesController {
       // all, inprogress, completed 나눠야함
       const { status } = req.query;
       // 유저 id는 인증 미들웨어에서 가지고 온다 => res.locals.user
-      const { userId } = res.locals.user;
+      const { id } = res.locals.user;
 
-      const services = await this.userService.findAllService(userId, status);
-      res.status(200).json({ data: services });
+      const services = await this.userService.findAllService(id, status);
+      res.status(200).json(services);
     } catch (error) {
       next(error);
     }
@@ -35,7 +35,7 @@ class servicesController {
         phoneNumber,
         address
       );
-      res.status(200).json({ data: service });
+      res.status(201).json(service);
     } catch (error) {
       next(error);
     }

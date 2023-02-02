@@ -32,15 +32,17 @@
         const isLogin = !!userInfo;
         console.log({ isLogin });
 
+        if (isLogin === false) {
+          return (window.location.href = "/");
+        }
         // 유저 정보가 있으면
         // 해당 사용자의 모든 서비스 요청
-        if (userInfo) {
-          // const table = document.getElementById("table");
-          const services = await getServices();
-          console.log({ services });
-          // 유저 테이블을 그려준다.
-          // createUserTable(table, user);
-        }
+
+        // const table = document.getElementById("table");
+        const services = await getServices();
+        console.log(services);
+        // 유저 테이블을 그려준다.
+        // createUserTable(table, user);
 
         createHeaderButton(isLogin);
       })();
