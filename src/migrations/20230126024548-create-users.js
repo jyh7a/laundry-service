@@ -9,6 +9,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT.UNSIGNED,
       },
+      userImage: {
+        allowNull: false,
+        defaultValue: "/images/default-user.jpg",
+        type: Sequelize.STRING(255),
+      },
       password: {
         allowNull: false,
         type: Sequelize.STRING(255),
@@ -19,6 +24,7 @@ module.exports = {
       },
       nickname: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING(255),
       },
       phoneNumber: {
@@ -33,7 +39,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BIGINT.UNSIGNED,
         defaultValue: 0,
-        comment:"0 - 손님, 1 - 사장님"
+        comment: "0 - 손님, 1 - 사장님",
       },
       createdAt: {
         allowNull: false,

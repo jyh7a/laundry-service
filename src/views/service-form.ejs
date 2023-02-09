@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/style/main.css" />
+    <title>세탁서비스</title>
+  </head>
+  <body>
+    <%-include('./components/header.ejs') %>
+
+    <div class="body">
+      <%-include('./components/sidebar.ejs') %>
+      <div id="content-wrapper">
+        <div id="content">
+          <h1>서비스 신청페이지</h1>
+
+          <form id="form" action="">
+            <div>
+              <div>사진:</div>
+              <input id="image" type="file" name="image" accept="image/*" />
+            </div>
+            <div>
+              <div>요구사항:</div>
+              <Textarea
+                id="requests"
+                name="requests"
+                rows="6"
+                cols="40"
+              ></Textarea>
+              <!-- <input id="requests" type="text" name="requests" /> -->
+            </div>
+            <div>
+              <div>닉네임:</div>
+              <input id="nickname" type="text" name="nickname" readonly />
+            </div>
+            <div>
+              <div>잔여 포인트:</div>
+              <input id="point" type="text" name="point" readonly />
+            </div>
+            <div>
+              <div>전화번호:</div>
+              <input id="phoneNumber" type="text" name="phoneNumber" />
+            </div>
+            <div>
+              <div>주소:</div>
+              <input id="address" type="text" name="address" />
+            </div>
+
+            <div class="justify-content-sb mt-2">
+              <button class="history-back">👈 돌아가기</button>
+              <button type="submit">신청 완료 👍</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <%-include('./components/footer.ejs') %>
+
+    <script src="/js/main.js"></script>
+    <script>
+      // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
+      (async () => {
+        submit_btn = document.querySelector("button[type='submit']");
+        back_btn = document.querySelector(".history-back");
+
+        back_btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.history.back();
+        });
+
+        const userInfo = await getUserInfo();
+        console.log({ userInfo });
+        const isLogin = !!userInfo;
+        console.log({ isLogin });
+
+        createHeaderButton(isLogin);
+        setPageInfo();
+        const nickname = document.getElementById("nickname");
+        const point = document.getElementById("point");
+
+        nickname.value = userInfo.nickname;
+        point.value = userInfo.point;
+
+        submit_btn.addEventListener("click", async (e) => {
+          try {
+            e.preventDefault();
+
+            const image = document.getElementById("image").files[0];
+            const requests = document.getElementById("requests").value;
+            const nickname = document.getElementById("nickname").value;
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            const address = document.getElementById("address").value;
+
+            const formData = new FormData();
+            formData.append("image", image);
+            formData.append("laundryRequest", requests);
+            formData.append("nickname", nickname);
+            formData.append("phoneNumber", phoneNumber);
+            formData.append("address", address);
+
+            const res = await axios
+              .post("http://localhost:3000/api/services", formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              })
+              .then(function (response) {
+                if (response?.status === 201) {
+                  window.location.href = "/services";
+                }
+              })
+              .catch(function (error) {
+                if (error?.response?.data?.message) {
+                  alert(error.response.data.message);
+                }
+                console.log(error.message);
+              });
+          } catch (error) {
+            console.error(error.message);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

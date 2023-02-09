@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="">
+      <div>
+        <input type="radio" id="customer" name="userType" value="customer" />
+        <label for="customer">고객</label>
+        <input type="radio" id="boss" name="userType" value="boss" />
+        <label for="boss">사장님</label>
+      </div>
+
+      <div><input id="title" type="text" /></div>
+      <div><input id="image" type="file" accept="image/*" /></div>
+      <div>
+        <select name="rating" id="rating">
+          <option name="1" value="1">1점</option>
+          <option name="2" value="2">2점</option>
+        </select>
+      </div>
+      <div><textarea id="request"></textarea></div>
+      <div><button type="submit">전송</button></div>
+    </form>
+
+    <script>
+      // It will request the form with axios.
+      const form = document.querySelector("form");
+      form.addEventListener("submit", async (e) => {
+        try {
+          e.preventDefault();
+          const userType = document.querySelector(
+            "input[name=userType]:checked"
+          ).value;
+          const title = document.getElementById("title").value;
+          const image = document.getElementById("image").files[0];
+          const rating = document.getElementById("rating").value;
+          const request = document.getElementById("request").value;
+
+          const formData = new FormData();
+          formData.append("userType", userType);
+          formData.append("title", title);
+          formData.append("image", image);
+          formData.append("rating", rating);
+          formData.append("request", request);
+
+          const res = await axios.post(
+            "http://localhost:3000/api/test",
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          console.log(res.data);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "userImage": "./src/image",
+      "nickname": "jyh7a",
+      "password": "1234",
+      "confirmPassword": "1234",
+      "phoneNumber": "010-1111-1111",
+      "address": "서울",
+      "userType": 0
+    }
+  ]
+}

@@ -7,6 +7,7 @@ const development = {
   database: env.MYSQL_AWS_DATABASE,
   host: env.MYSQL_AWS_HOST,
   dialect: "mysql",
+  logging: false,
 };
 const test = {
   username: "root",

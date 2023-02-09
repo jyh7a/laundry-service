@@ -1,5 +1,6 @@
 # Notion List
-- 1월 26(목) -  ERD(수정), API, 추가 모듈 설치(https://www.notion.so/teamsparta/1-26-ERD-API-6845736f8a58437ca4b0c018580e2bc9)
+
+- 1월 26(목) - ERD(수정), API, 추가 모듈 설치(https://www.notion.so/teamsparta/1-26-ERD-API-6845736f8a58437ca4b0c018580e2bc9)
 
 <br/>
 
@@ -47,31 +48,31 @@
 
 ### Orders
 
-| name             | type            | desc                                                                                    |
-| ---------------- | --------------- | --------------------------------------------------------------------------------------- |
-| id               | bigint unsigned | 아이디                                                                                  |
-| laundryPicture   | varchar(255)    | 세탁물 사진                                                                             |
-| laundryRequest   | TEXT            | 세탁물 요청 사항                                                                        |
-| userId           | bigint unsigned | 손님 아이디(외래키)                                                                     |
-| shopId           | bigint unsigned | 가게 아이디(외래키)                                                                     |
-| status           | int unsigned    | 주문상태 <br>0 - 대기중(Default), 1 - 수거중, 2 - 수거 완료, 3 - 배송 중, 4 - 배송 완료 |
-| due_date         | datetime        | 손님이 요청한 세탁 마감일                                                               |
-| createdAt        | datetime        | 주문 생성 시간                                                                          |
-| updatedAt        | datetime        | 주문 업데이트 시간                                                                      |
+| name           | type            | desc                                                                                    |
+| -------------- | --------------- | --------------------------------------------------------------------------------------- |
+| id             | bigint unsigned | 아이디                                                                                  |
+| laundryImage   | varchar(255)    | 세탁물 사진                                                                             |
+| laundryRequest | TEXT            | 세탁물 요청 사항                                                                        |
+| userId         | bigint unsigned | 손님 아이디(외래키)                                                                     |
+| shopId         | bigint unsigned | 가게 아이디(외래키)                                                                     |
+| status         | int unsigned    | 주문상태 <br>0 - 대기중(Default), 1 - 수거중, 2 - 수거 완료, 3 - 배송 중, 4 - 배송 완료 |
+| due_date       | datetime        | 손님이 요청한 세탁 마감일                                                               |
+| createdAt      | datetime        | 주문 생성 시간                                                                          |
+| updatedAt      | datetime        | 주문 업데이트 시간                                                                      |
 
 <br>
 
 ### Shops - DELETE
 
-| name             | type            | desc                        |
-| ---------------- | --------------- | --------------------------- |
-| id               | bigint unsigned | 아이디                      |
-| name             | varchar(255)    | 가게 이름                   |
-| phoneNumber      | varchar(255)    | 가게 전화번호               |
-| location         | varchar(255)    | 가게 위치                   |
-| userID           | bigint unsigned | 사장님 ID                   |
-| createdAt        | datetime        | 가게 생성 시간              |
-| updatedAt        | datetime        | 가게 업데이트 시간          |
+| name        | type            | desc               |
+| ----------- | --------------- | ------------------ |
+| id          | bigint unsigned | 아이디             |
+| name        | varchar(255)    | 가게 이름          |
+| phoneNumber | varchar(255)    | 가게 전화번호      |
+| location    | varchar(255)    | 가게 위치          |
+| userID      | bigint unsigned | 사장님 ID          |
+| createdAt   | datetime        | 가게 생성 시간     |
+| updatedAt   | datetime        | 가게 업데이트 시간 |
 
 <br>
 
@@ -170,16 +171,16 @@
     ```
 
   - Services
- 
+
     ```bash
-    sequelize model:generate --name Services --attributes nickname:string,userId:bigint,phoneNumber:string,address:string,laundryPicture:string,laundryRequest:text,point:bigint,status:bigint
+    sequelize model:generate --name Services --attributes nickname:string,userId:bigint,phoneNumber:string,address:string,laundryImage:string,laundryRequest:text,point:bigint,status:bigint
     ```
 
   - Reviews
 
-    ````bash
+    ```bash
     sequelize model:generate --name Reviews --attributes userId:bigint,serviceId:bigint,comment:text,rating:bigint
-    ````
+    ```
 
 - sequelize db:migrate
 
@@ -188,5 +189,6 @@
   ```
 
 # 참고 자료
+
 - Layered Pattern - https://han-py.tistory.com/443
-- 
+-

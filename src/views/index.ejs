@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/style/main.css" />
+    <title>세탁서비스</title>
+  </head>
+  <body>
+    <%-include('./components/header.ejs') %>
+
+    <div class="body">
+      <%#-include('./components/sidebar.ejs') %>
+      <div id="content-wrapper" class="flex-box">
+        <div id="content">
+          <h1>어서오세요 세탁특공대 입니다!</h1>
+          <div class="auth-box flex-box">
+            <button><a href="/login">로그인</a></button>
+            <button><a href="/signup">회원가입</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%-include('./components/footer.ejs') %>
+
+    <script src="/js/main.js"></script>
+    <script>
+      // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
+      (async () => {
+        const userInfo = await getUserInfo();
+        console.log({ userInfo });
+        const isLogin = !!userInfo;
+        console.log({ isLogin });
+
+        // 아래 코드는 user페이지 화면이 보였다가
+        // users페이지로 이동하기에 잔상이 보임
+        // 이걸 해결하고 싶으면 middleware/login-check.middleware.js 사용
+        // if (isLogin) {
+        //   window.location.href = "/users";
+        // }
+
+        createHeaderButton(isLogin);
+        setPageInfo();
+      })();
+    </script>
+  </body>
+</html>

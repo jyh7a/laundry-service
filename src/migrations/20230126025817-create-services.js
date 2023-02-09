@@ -26,7 +26,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(255),
       },
-      laundryPicture: {
+      laundryImage: {
         allowNull: false,
         type: Sequelize.STRING(255),
       },

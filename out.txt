@@ -1,0 +1,49 @@
+/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework
+├── README.md
+├── app.js
+├── docs
+|  ├── api-json-data.json
+|  ├── ask-ai.md
+|  ├── http-status-code.md
+|  ├── sequelize.md
+|  ├── socket.io.md
+|  └── tree.md
+├── out.txt
+├── package-lock.json
+├── package.json
+└── src
+   ├── config
+   |  └── config.js
+   ├── controllers
+   |  └── users.controller.js
+   ├── migrations
+   |  ├── 20230126024548-create-users.js
+   |  ├── 20230126025817-create-services.js
+   |  └── 20230126030105-create-reviews.js
+   ├── models
+   |  ├── index.js
+   |  ├── reviews.js
+   |  ├── services.js
+   |  └── users.js
+   ├── repositories
+   |  └── users.repository.js
+   ├── routes
+   |  ├── index.js
+   |  ├── pages.routes.js
+   |  └── users.routes.js
+   ├── seeders
+   |  └── users.js
+   ├── services
+   |  └── users.service.js
+   └── views
+      ├── components
+      |  ├── contents
+      |  ├── footer.ejs
+      |  ├── header.ejs
+      |  └── sidebar.ejs
+      ├── index.ejs
+      ├── input-test.ejs
+      └── socket.ejs
+
+directory: 13 file: 32
+

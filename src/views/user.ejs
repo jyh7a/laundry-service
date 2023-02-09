@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/style/main.css" />
+    <title>세탁서비스</title>
+  </head>
+  <body>
+    <%-include('./components/header.ejs') %>
+
+    <div class="body">
+      <%-include('./components/sidebar.ejs') %>
+      <div id="content-wrapper">
+        <div id="content">
+          <table id="table"></table>
+        </div>
+      </div>
+    </div>
+
+    <%-include('./components/footer.ejs') %>
+
+    <script src="/js/main.js"></script>
+    <script>
+      // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
+      (async () => {
+        const userInfo = await getUserInfo();
+        console.log({ userInfo });
+        const isLogin = !!userInfo;
+        console.log({ isLogin });
+        console.log("");
+
+        // 로그인을 해서 userInfo(nickname)이 있으면
+        // 유저 정보를 요청한다.
+        if (userInfo) {
+          const table = document.getElementById("table");
+          const user = await getUser(userInfo);
+          // 유저 테이블을 그려준다.
+          createUserTable(table, user);
+        }
+
+        createHeaderButton(isLogin);
+        setPageInfo();
+      })();
+    </script>
+  </body>
+</html>
