@@ -21,12 +21,12 @@
           <form id="form" action="">
             <div>
               <div>사진:</div>
-              <img src="" alt="" />
+              <img id="laundryImage" src="" alt="" />
             </div>
             <div>
               <div>요구사항:</div>
               <Textarea
-                id="requests"
+                id="laundryRequest"
                 name="requests"
                 rows="6"
                 cols="40"
@@ -75,6 +75,26 @@
 
         createHeaderButton(isLogin);
         setPageInfo();
+
+        // 해당 서비스 데이터 요청을 보낸다
+        const serviceId = parseInt(
+          window.location.pathname.replace("/services/", ""),
+          10
+        );
+
+        const data = await getService(serviceId);
+
+        const laundryImage = document.querySelector("#laundryImage");
+        const laundryRequest = document.querySelector("#laundryRequest");
+        const nickname = document.querySelector("#nickname");
+        const phoneNumber = document.querySelector("#phoneNumber");
+        const address = document.querySelector("#address");
+
+        laundryImage.src = data.laundryImage;
+        laundryRequest.value = data.laundryRequest;
+        nickname.value = data.nickname;
+        phoneNumber.value = data.phoneNumber;
+        address.value = data.address;
       })();
     </script>
   </body>

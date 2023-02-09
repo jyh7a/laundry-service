@@ -46,7 +46,6 @@ class servicesController {
         userId,
         laundryImage,
         laundryRequest,
-        nickname,
         phoneNumber,
         address
       );

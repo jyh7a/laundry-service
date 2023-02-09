@@ -144,6 +144,19 @@ const getServices = async (status = "all") => {
   }
 };
 
+// 해당 유저의 선택된 서비스 정보 요청
+// 고객인지 사장님인지는 서버에서 판단
+const getService = async (serviceId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/services/${serviceId}`
+    );
+    return response.data;
+  } catch (error) {
+    return 0;
+  }
+};
+
 // create user table template
 const createUserTable = (table, data) => {
   const point = numberWithCommas(data.point);
@@ -230,7 +243,7 @@ const createServiceCard = (body, data) => {
       </div>
       <div class="service-bottom flex-box">
         <div class="service-detail cp text-align-ct">
-          <a href="/services/detail?serviceId=${item.id}">👉 상세보기</a>
+          <a href="/services/${item.id}">👉 상세보기</a>
         </div>
         <div class="service-status-text">
           <span>진행상황:&nbsp;</span>${status}

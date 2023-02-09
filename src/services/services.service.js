@@ -1,8 +1,8 @@
 const ServiceRepository = require("../repositories/services.repository");
-const { Services } = require("../models");
+const { Services, Users } = require("../models");
 
 class serviceService {
-  serviceRepository = new ServiceRepository(Services);
+  serviceRepository = new ServiceRepository(Services, Users);
 
   findAllService = async (userId, status) => {
     try {
@@ -30,7 +30,17 @@ class serviceService {
 
   findService = async (userId, serviceId) => {
     try {
-      const condition = { userId, serviceId };
+      const condition = {
+        attr: [
+          "laundryImage",
+          "laundryRequest",
+          "nickname",
+          "phoneNumber",
+          "address",
+        ],
+        userId,
+        serviceId,
+      };
       const service = await this.serviceRepository.findService(condition);
       return service;
     } catch (err) {
