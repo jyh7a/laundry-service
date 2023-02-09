@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/style/main.css" />
+    <title>세탁서비스</title>
+  </head>
+  <body>
+    <%-include('./components/header.ejs') %>
+
+    <div class="body">
+      <%-include('./components/sidebar.ejs') %>
+      <div id="content-wrapper">
+        <div id="content">
+          <h1>서비스 상세보기</h1>
+
+          <form id="form" action="">
+            <div>
+              <div>사진:</div>
+              <img src="" alt="" />
+            </div>
+            <div>
+              <div>요구사항:</div>
+              <Textarea
+                id="requests"
+                name="requests"
+                rows="6"
+                cols="40"
+                readonly
+              ></Textarea>
+            </div>
+            <div>
+              <div>닉네임:</div>
+              <input id="nickname" type="text" name="nickname" readonly />
+            </div>
+            <div>
+              <div>전화번호:</div>
+              <input id="phoneNumber" type="text" name="phoneNumber" readonly />
+            </div>
+            <div>
+              <div>주소:</div>
+              <input id="address" type="text" name="address" readonly />
+            </div>
+
+            <div class="justify-content-sb mt-2">
+              <button class="history-back">👈 돌아가기</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <%-include('./components/footer.ejs') %>
+
+    <script src="/js/main.js"></script>
+    <script>
+      // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
+      (async () => {
+        submit_btn = document.querySelector("button[type='submit']");
+        back_btn = document.querySelector(".history-back");
+
+        back_btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.history.back();
+        });
+
+        const userInfo = await getUserInfo();
+        console.log({ userInfo });
+        const isLogin = !!userInfo;
+        console.log({ isLogin });
+
+        createHeaderButton(isLogin);
+        setPageInfo();
+      })();
+    </script>
+  </body>
+</html>

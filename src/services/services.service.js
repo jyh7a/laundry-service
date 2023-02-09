@@ -28,6 +28,16 @@ class serviceService {
     }
   };
 
+  findService = async (userId, serviceId) => {
+    try {
+      const condition = { userId, serviceId };
+      const service = await this.serviceRepository.findService(condition);
+      return service;
+    } catch (err) {
+      throw err;
+    }
+  };
+
   createService = async (
     nickname,
     userId,

@@ -59,4 +59,13 @@ router.get("/services/form", (req, res) => {
   }
 });
 
+// 서비스 폼 상세
+router.get("/services/detail", (req, res) => {
+  try {
+    return res.render("service-detail");
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 module.exports = router;

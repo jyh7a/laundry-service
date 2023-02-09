@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/main.js"></script>
     <link rel="stylesheet" href="/style/main.css" />
     <title>세탁서비스</title>
   </head>
@@ -15,15 +14,34 @@
 
     <div class="body">
       <%-include('./components/sidebar.ejs') %>
-      <div id="content-wrapper">
+      <div id="content-wrapper" class="flex-direction-co">
+        <div class="contnet-nav">
+          <div class="left">
+            <div class="create-form btn">
+              <a href="/services/form">서비스 신청</a>
+            </div>
+          </div>
+          <div class="right">
+            <div class="service-status btn" data-value="1 all">
+              <a>전체</a>
+            </div>
+            <div class="service-status btn" data-value="2 inprogress">
+              <a>진행중</a>
+            </div>
+            <div class="service-status btn" data-value="3 completed">
+              <a>완료</a>
+            </div>
+          </div>
+        </div>
         <div id="content">
-          <h1>서비스 페이지</h1>
+          <div class="content-body"></div>
         </div>
       </div>
     </div>
 
     <%-include('./components/footer.ejs') %>
 
+    <script src="/js/main.js"></script>
     <script>
       // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
       (async () => {
@@ -38,13 +56,18 @@
         // 유저 정보가 있으면
         // 해당 사용자의 모든 서비스 요청
 
-        // const table = document.getElementById("table");
-        const services = await getServices();
-        console.log(services);
-        // 유저 테이블을 그려준다.
-        // createUserTable(table, user);
+        const serviceStatusObj = JSON.parse(
+          localStorage.getItem("serviceStatus")
+        ) || {
+          num: 0,
+          type: "all",
+        };
+        const services = await getServices(serviceStatusObj.type);
+        // 서비스 카드를 그려준다
+        createServiceCard(contentBody, services);
 
         createHeaderButton(isLogin);
+        setPageInfo();
       })();
     </script>
   </body>

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/main.js"></script>
     <link rel="stylesheet" href="/style/main.css" />
     <title>세탁서비스</title>
   </head>
@@ -26,7 +25,13 @@
             </div>
             <div>
               <div>요구사항:</div>
-              <input id="requests" type="text" name="requests" />
+              <Textarea
+                id="requests"
+                name="requests"
+                rows="6"
+                cols="40"
+              ></Textarea>
+              <!-- <input id="requests" type="text" name="requests" /> -->
             </div>
             <div>
               <div>닉네임:</div>
@@ -45,7 +50,10 @@
               <input id="address" type="text" name="address" />
             </div>
 
-            <button type="submit">신천 완료</button>
+            <div class="justify-content-sb mt-2">
+              <button class="history-back">👈 돌아가기</button>
+              <button type="submit">신청 완료 👍</button>
+            </div>
           </form>
         </div>
       </div>
@@ -53,23 +61,32 @@
 
     <%-include('./components/footer.ejs') %>
 
+    <script src="/js/main.js"></script>
     <script>
       // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
       (async () => {
+        submit_btn = document.querySelector("button[type='submit']");
+        back_btn = document.querySelector(".history-back");
+
+        back_btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.history.back();
+        });
+
         const userInfo = await getUserInfo();
         console.log({ userInfo });
         const isLogin = !!userInfo;
         console.log({ isLogin });
 
         createHeaderButton(isLogin);
-        console.log(userInfo);
+        setPageInfo();
         const nickname = document.getElementById("nickname");
         const point = document.getElementById("point");
 
         nickname.value = userInfo.nickname;
         point.value = userInfo.point;
 
-        form.addEventListener("submit", async (e) => {
+        submit_btn.addEventListener("click", async (e) => {
           try {
             e.preventDefault();
 

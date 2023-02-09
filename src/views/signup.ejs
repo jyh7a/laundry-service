@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/main.js"></script>
     <link rel="stylesheet" href="/style/main.css" />
     <title>세탁서비스</title>
   </head>
@@ -44,15 +43,27 @@
           <label for="boss">사장님</label>
         </div>
 
-        <button type="submit">가입하기</button>
+        <div class="justify-content-sb mt-2">
+          <button class="history-back">👈 돌아가기</button>
+          <button type="submit">가입하기 👍</button>
+        </div>
       </form>
     </div>
 
     <%-include('./components/footer.ejs') %>
 
+    <script src="/js/main.js"></script>
     <script>
       // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
       (async () => {
+        submit_btn = document.querySelector("button[type='submit']");
+        back_btn = document.querySelector(".history-back");
+
+        back_btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.history.back();
+        });
+
         const userInfo = await getUserInfo();
         console.log({ userInfo });
         const isLogin = !!userInfo;
@@ -60,7 +71,7 @@
 
         createHeaderButton(isLogin);
 
-        form.addEventListener("submit", async (e) => {
+        submit_btn.addEventListener("click", async (e) => {
           try {
             e.preventDefault();
             const image = document.getElementById("image").files[0];

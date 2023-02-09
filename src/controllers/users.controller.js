@@ -43,7 +43,7 @@ class UsersController {
   };
 
   // Logout
-  // jwt 쿠키만 지워 주면된다.
+  // jwt 쿠키 지워 주면된다.
   logout = async (req, res, next) => {
     try {
       if (req?.cookies?.jwt) {

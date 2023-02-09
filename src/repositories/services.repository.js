@@ -19,6 +19,20 @@ class ServiceRepository {
     }
   };
 
+  findService = async ({ userId, serviceId }) => {
+    try {
+      const service = await this.serviceModel.findAll({
+        where: {
+          userId,
+          id: serviceId,
+        },
+      });
+      return service;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   createService = async (
     nickname,
     userId,

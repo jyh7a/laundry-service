@@ -6,25 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/main.js"></script>
     <link rel="stylesheet" href="/style/main.css" />
     <title>세탁서비스</title>
   </head>
   <body>
     <%-include('./components/header.ejs') %>
 
-    <div id="content">
-      <h1>로그인 페이지</h1>
+    <div class="body">
+      <div id="content">
+        <h1>로그인 페이지</h1>
 
-      <form id="form" action="">
-        <input id="nickname" type="text" name="nickname" />
-        <input id="password" type="password" name="password" />
-        <button type="submit">로그인</button>
-      </form>
+        <form id="form" class="flex-box gap-1" action="">
+          <input
+            id="nickname"
+            type="text"
+            name="nickname"
+            placeholder="nickname"
+          />
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="password"
+          />
+          <button type="submit">로그인</button>
+        </form>
+      </div>
     </div>
 
     <%-include('./components/footer.ejs') %>
 
+    <script src="/js/main.js"></script>
     <script>
       (async () => {
         const userInfo = await getUserInfo();
@@ -39,7 +51,6 @@
         form.addEventListener("submit", async (e) => {
           try {
             e.preventDefault();
-
             const nickname = document.getElementById("nickname").value;
             const password = document.getElementById("password").value;
             const formData = new FormData();
@@ -55,6 +66,9 @@
               })
               .then(function (response) {
                 if (response?.status === 200) {
+                  // 로컬 스토리지 삭제해준다
+                  localStorage.clear();
+
                   window.location.href = "/users";
                 }
               })

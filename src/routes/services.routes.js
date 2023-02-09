@@ -5,8 +5,12 @@ const { upload } = require("../util/multer.util");
 const ServicesController = require("../controllers/services.controller");
 const servicesController = new ServicesController();
 
+// 선택한 서비스 상세 정보
+router.get("/:serviceId", servicesController.findService);
+
 // 해당유저의 모든 서비스
 router.get("/", servicesController.findAllService);
+
 // 서비스 등록
 // 서비스는 userType - 0 인 손님만 가능
 router.post(
