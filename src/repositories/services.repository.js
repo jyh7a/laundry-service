@@ -77,6 +77,7 @@ class ServiceRepository {
       } catch (error) {
         // handle any errors and rollback the transaction
         await transaction.rollback();
+        throw new Error(error);
       }
     } catch (error) {
       throw new Error(error);

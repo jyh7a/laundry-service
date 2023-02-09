@@ -47,3 +47,13 @@
     at Function.process_params (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:346:12)
     at next (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:280:10)
     at Function.handle (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:175:3) 
+[2023-02-09 16:27:25]: Error: Error: Error: test
+    at ServiceRepository.createService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/repositories/services.repository.js:83:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async serviceService.createService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/services/services.service.js:60:23)
+    at async createService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/controllers/services.controller.js:44:23) 
+[2023-02-09 16:27:36]: Error: Error: Error: test
+    at ServiceRepository.createService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/repositories/services.repository.js:83:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async serviceService.createService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/services/services.service.js:60:23)
+    at async createService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/controllers/services.controller.js:44:23) 
