@@ -60,16 +60,15 @@ class ServiceRepository {
           { transaction }
         );
 
-        throw new Error("Parameter is not a number!");
-        // 유저 포인트 가지고 오기
-        const user = await this.userModel.findByPk(userId);
-        const userPoint = user.point - 10000;
+        // transaction 테스트
+        // throw new Error("test");
 
         // 유저 업데이트 (10000 포인트 차감)
-        await this.userModel.update(
-          { point: userPoint },
-          { where: { id: userId }, transaction }
-        );
+        await this.userModel.decrement("point", {
+          by: 10000,
+          where: { id: userId },
+          transaction,
+        });
 
         // commit the transaction
         await transaction.commit();
