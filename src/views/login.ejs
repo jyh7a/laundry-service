@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" href="/style/main.css" />
-    <title>세탁서비스</title>
-  </head>
-  <body>
-    <%-include('./components/header.ejs') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="/style/main.css" />
+  <title>세탁서비스</title>
+</head>
+
+<body>
+  <%-include('./components/header.ejs') %>
 
     <div class="body">
       <div id="content">
@@ -36,53 +38,54 @@
 
     <%-include('./components/footer.ejs') %>
 
-    <script src="/js/main.js"></script>
-    <script>
-      (async () => {
-        const userInfo = await getUserInfo();
-        console.log({ userInfo });
-        const isLogin = !!userInfo;
-        console.log({ isLogin });
+      <script src="/js/main.js"></script>
+      <script>
+        (async () => {
+          const userInfo = await getUserInfo();
+          console.log({ userInfo });
+          const isLogin = !!userInfo;
+          console.log({ isLogin });
 
-        createHeaderButton(isLogin);
+          createHeaderButton(isLogin);
 
-        const form = document.querySelector("form");
+          const form = document.querySelector("form");
 
-        form.addEventListener("submit", async (e) => {
-          try {
-            e.preventDefault();
-            const nickname = document.getElementById("nickname").value;
-            const password = document.getElementById("password").value;
-            const formData = new FormData();
+          form.addEventListener("submit", async (e) => {
+            try {
+              e.preventDefault();
+              const nickname = document.getElementById("nickname").value;
+              const password = document.getElementById("password").value;
+              const formData = new FormData();
 
-            formData.append("nickname", nickname);
-            formData.append("password", password);
+              formData.append("nickname", nickname);
+              formData.append("password", password);
 
-            const res = await axios
-              .post("http://localhost:3000/api/login", formData, {
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              })
-              .then(function (response) {
-                if (response?.status === 200) {
-                  // 로컬 스토리지 삭제해준다
-                  localStorage.clear();
+              const res = await axios
+                .post("/api/login", formData, {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                })
+                .then(function (response) {
+                  if (response?.status === 200) {
+                    // 로컬 스토리지 삭제해준다
+                    localStorage.clear();
 
-                  window.location.href = "/users";
-                }
-              })
-              .catch(function (error) {
-                if (error?.response?.data?.message) {
-                  alert(error.response.data.message);
-                }
-                console.log(error.message);
-              });
-          } catch (error) {
-            console.error(error.message);
-          }
-        });
-      })();
-    </script>
-  </body>
+                    window.location.href = "/users";
+                  }
+                })
+                .catch(function (error) {
+                  if (error?.response?.data?.message) {
+                    alert(error.response.data.message);
+                  }
+                  console.log(error.message);
+                });
+            } catch (error) {
+              console.error(error.message);
+            }
+          });
+        })();
+      </script>
+</body>
+
 </html>

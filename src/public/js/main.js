@@ -83,7 +83,7 @@ const createHeaderButton = (isLogin = false) => {
 // 유저 정보 요청(필수 정보만)
 const getUserInfo = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/users/info`);
+    const response = await axios.get(`/api/users/info`);
     return response.data;
   } catch (error) {
     return 0;
@@ -91,7 +91,7 @@ const getUserInfo = async () => {
 
   // 기존 코드
   // await axios
-  //   .get(`http://localhost:3000/api/users/info`)
+  //   .get(`/api/users/info`)
   //   .then(function (response) {
   //     if (response?.status === 200) {
   //       return response.data;
@@ -109,7 +109,7 @@ const getUserInfo = async () => {
 const getUser = async ({ nickname }) => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/users/${nickname}`
+      `/api/users/${nickname}`
     );
     return response.data;
   } catch (error) {
@@ -117,7 +117,7 @@ const getUser = async ({ nickname }) => {
   }
 
   // axios
-  //   .get(`http://localhost:3000/api/users/${nickname}`)
+  //   .get(`/api/users/${nickname}`)
   //   .then(function (response) {
   //     if (response?.status === 200) {
   //       return response.data;
@@ -136,7 +136,7 @@ const getUser = async ({ nickname }) => {
 const getServices = async (status = "all") => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/services?status=${status}`
+      `/api/services?status=${status}`
     );
     return response.data;
   } catch (error) {
@@ -149,7 +149,7 @@ const getServices = async (status = "all") => {
 const getService = async (serviceId) => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/services/${serviceId}`
+      `/api/services/${serviceId}`
     );
     return response.data;
   } catch (error) {

@@ -6,7 +6,7 @@ class UsersController {
 
   signup = async (req, res, next) => {
     try {
-      const userImage = req.file.path.replace("src/public", "");
+      const userImage = req.file.path.replace("src\\public", "");
       const { nickname, password, phoneNumber, address, userType } = req.body;
       // 포인트는 서비스에서
       // userType - 0 => 1000000P
@@ -71,7 +71,7 @@ class UsersController {
   findUserInfo = async (req, res, next) => {
     try {
       if (!req.cookies || !req.cookies.jwt) {
-        res.status(404);
+        return res.status(404);
       }
       const token = req.cookies.jwt;
       const { userId: id } = jwt.verify(token, process.env.JWT_SECRET_KEY);

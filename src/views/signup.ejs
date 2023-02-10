@@ -92,7 +92,7 @@
             formData.append("userType", userType);
 
             const res = await axios
-              .post("http://localhost:3000/api/signup", formData, {
+              .post("/api/signup", formData, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
