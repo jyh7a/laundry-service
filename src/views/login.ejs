@@ -12,7 +12,7 @@
   <body>
     <%-include('./components/header.ejs') %>
 
-    <div class="body">
+    <div class="body justify-content-ct align-items-ct">
       <div id="content">
         <h1>로그인 페이지</h1>
 
@@ -59,7 +59,7 @@
             formData.append("password", password);
 
             const res = await axios
-              .post("http://localhost:3000/api/login", formData, {
+              .post("/api/login", formData, {
                 headers: {
                   "Content-Type": "application/json",
                 },

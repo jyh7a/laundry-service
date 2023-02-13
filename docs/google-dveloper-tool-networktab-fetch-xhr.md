@@ -17,7 +17,7 @@ axios는 비동기 HTTP 요청 라이브러리이며, XHR (XMLHttpRequest)를 �
 따라서, axios보다는 fetch API를 사용하는 것이 좋습니다.
 
 ```javascript
-const res = await fetch("http://localhost:3000/api/login", {
+const res = await fetch("/api/login", {
   method: "post",
   headers: {
     "Content-Type": "application/json",

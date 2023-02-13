@@ -14,7 +14,7 @@
 
     <div class="body">
       <%-include('./components/sidebar.ejs') %>
-      <div id="content-wrapper">
+      <div id="content-wrapper" class="justify-content-ct">
         <div id="content">
           <h1>서비스 신청페이지</h1>
 
@@ -104,7 +104,7 @@
             formData.append("address", address);
 
             const res = await axios
-              .post("http://localhost:3000/api/services", formData, {
+              .post("/api/services", formData, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
