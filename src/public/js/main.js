@@ -2,12 +2,43 @@
 const logo = document.querySelector(".logo");
 const sidebar = document.querySelector(".sidebar");
 const sidebarList = sidebar?.getElementsByTagName("li");
-const serviceStatus = document.querySelectorAll(".service-status");
+const contnetNav = document.querySelector(".content-nav");
 const contentBody = document.querySelector(".content-body");
 
+let serviceStatus = null;
+
 // utils
+// 리눅스, 윈도 패스 변환
+const getElemets = (cb, value) => {
+  serviceStatus = document.querySelectorAll(".service-status");
+  cb(value);
+};
+
 const numberWithCommas = (integer) => {
   return integer.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+// get status
+const getStatus = (status) => {
+  switch (status) {
+    case 0:
+      status = "대기중";
+      break;
+    case 1:
+      status = "수거중";
+      break;
+    case 2:
+      status = "수거완료";
+      break;
+    case 3:
+      status = "배송중";
+      break;
+    case 4:
+      status = "배송완료";
+      break;
+  }
+
+  return status;
 };
 
 // set pageInfo(use localStorage)
@@ -131,9 +162,15 @@ const getUser = async ({ nickname }) => {
 
 // 해당 유저의 모든 서비스 정보 요청
 // 고객인지 사장님인지는 서버에서 판단
-const getServices = async (status = "all") => {
+const getServices = async (status = "all", userType = 0) => {
   try {
-    const response = await axios.get(`/api/services?status=${status}`);
+    let response = null;
+    if (userType === 0) {
+      response = await axios.get(`/api/customers/services?status=${status}`);
+    } else {
+      response = await axios.get(`/api/bosses/services?status=${status}`);
+    }
+
     return response.data;
   } catch (error) {
     return 0;
@@ -204,24 +241,7 @@ const createServiceCard = (body, data) => {
   let hmtl = "";
 
   data.map((item) => {
-    let status = item.status;
-    switch (status) {
-      case 0:
-        status = "대기중";
-        break;
-      case 1:
-        status = "수거중";
-        break;
-      case 2:
-        status = "수거완료";
-        break;
-      case 3:
-        status = "배송중";
-        break;
-      case 4:
-        status = "배송완료";
-        break;
-    }
+    let status = getStatus(item.status);
 
     hmtl += `<div class="service-card">
       <div class="service-top flex-box align-items-ih">
@@ -249,6 +269,55 @@ const createServiceCard = (body, data) => {
   body.innerHTML = hmtl;
 };
 
+// create content-nav
+const createContentNav = (userType) => {
+  // userType
+  // 0 - 고객
+  // 1 - 사장님
+  let html = "";
+  if (userType === 0) {
+    html = `
+      <div class="left">
+        <div class="create-form btn">
+          <a href="/services/form">서비스 신청</a>
+        </div>
+      </div>
+      <div class="right">
+        <div class="service-status btn" data-value="1 all">
+          <a>전체</a>
+        </div>
+        <div class="service-status btn" data-value="2 inprogress">
+          <a>진행중</a>
+        </div>
+        <div class="service-status btn" data-value="3 completed">
+          <a>완료</a>
+        </div>
+      </div>
+    `;
+  } else {
+    html = `
+      <div class="left">
+      </div>
+      <div class="right">
+        <div class="service-status btn" data-value="1 all">
+          <a>전체</a>
+        </div>
+        <div class="service-status btn" data-value="2 pending">
+          <a>대기중</a>
+        </div>
+        <div class="service-status btn" data-value="3 inprogress">
+          <a>진행중</a>
+        </div>
+        <div class="service-status btn" data-value="4 completed">
+          <a>완료</a>
+        </div>
+      </div>
+    `;
+  }
+
+  contnetNav.innerHTML = html;
+};
+
 // logo click
 logo?.addEventListener("click", function (e) {
   createPageInfo({ laundryMenu: 1 });
@@ -261,24 +330,26 @@ sidebar?.addEventListener("click", function (e) {
 });
 
 // service status click
-if (serviceStatus.length > 0) {
-  for (let i = 0; i < serviceStatus.length; i++) {
-    serviceStatus[i].addEventListener("click", async function (e) {
-      let [num, type] = this.dataset.value.split(" ");
-      num -= 1;
-      const serviceStatus = JSON.stringify({ num, type });
-      createPageInfo({ serviceStatus });
-      setPageInfo();
+const addEvnetStatusBtn = (userType) => {
+  if (serviceStatus.length > 0) {
+    for (let i = 0; i < serviceStatus.length; i++) {
+      serviceStatus[i].addEventListener("click", async function (e) {
+        let [num, type] = this.dataset.value.split(" ");
+        num -= 1;
+        const serviceStatus = JSON.stringify({ num, type });
+        createPageInfo({ serviceStatus });
+        setPageInfo();
 
-      // axios 요청
-      const serviceStatusObj = JSON.parse(
-        localStorage.getItem("serviceStatus")
-      ) || {
-        num: 0,
-        type: "all",
-      };
-      const services = await getServices(serviceStatusObj.type);
-      createServiceCard(contentBody, services);
-    });
+        // axios 요청
+        const serviceStatusObj = JSON.parse(
+          localStorage.getItem("serviceStatus")
+        ) || {
+          num: 0,
+          type: "all",
+        };
+        const services = await getServices(serviceStatusObj.type, userType);
+        createServiceCard(contentBody, services);
+      });
+    }
   }
-}
+};

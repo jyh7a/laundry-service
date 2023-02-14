@@ -14,11 +14,31 @@
 
     <div class="body">
       <%-include('./components/sidebar.ejs') %>
-      <div id="content-wrapper">
-        <div id="content">
-          <h1>서비스 상세보기</h1>
-
+      <div id="content-wrapper" class="justify-content-ct">
+        <div id="content" class="flex-box">
           <form id="form" action="">
+            <div>
+              <div>서비스 번호:</div>
+              <input id="serviceId" type="text" name="serviceId" readonly />
+            </div>
+            <div>
+              <div>서비스 상태:</div>
+              <input
+                id="serviceStatus"
+                type="text"
+                name="serviceStatus"
+                readonly
+              />
+            </div>
+            <div>
+              <div>사장님 닉네임:</div>
+              <input
+                id="bossNickname"
+                type="text"
+                name="bossNickname"
+                readonly
+              />
+            </div>
             <div>
               <div>사진:</div>
               <img id="laundryImage" src="" alt="" />
@@ -77,19 +97,26 @@
         setPageInfo();
 
         // 해당 서비스 데이터 요청을 보낸다
-        const serviceId = parseInt(
+        const _serviceId = parseInt(
           window.location.pathname.replace("/services/", ""),
           10
         );
 
-        const data = await getService(serviceId);
+        const data = await getService(_serviceId);
+        console.log({ data });
 
+        const serviceId = document.querySelector("#serviceId");
+        const serviceStatus = document.querySelector("#serviceStatus");
+        const bossNickname = document.querySelector("#bossNickname");
         const laundryImage = document.querySelector("#laundryImage");
         const laundryRequest = document.querySelector("#laundryRequest");
         const nickname = document.querySelector("#nickname");
         const phoneNumber = document.querySelector("#phoneNumber");
         const address = document.querySelector("#address");
 
+        serviceId.value = data.id;
+        serviceStatus.value = getStatus(data.status);
+        bossNickname.value = data.bossId;
         laundryImage.src = data.laundryImage;
         laundryRequest.value = data.laundryRequest;
         nickname.value = data.nickname;

@@ -18,6 +18,11 @@ module.exports = {
         type: Sequelize.BIGINT.UNSIGNED,
         references: { model: "Users", key: "id" },
       },
+      bossId: {
+        allowNull: true,
+        type: Sequelize.BIGINT.UNSIGNED,
+        references: { model: "Users", key: "id" },
+      },
       phoneNumber: {
         allowNull: false,
         type: Sequelize.STRING(255),

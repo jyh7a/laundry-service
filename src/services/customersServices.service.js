@@ -1,4 +1,4 @@
-const ServiceRepository = require("../repositories/services.repository");
+const ServiceRepository = require("../repositories/customersServices.repository");
 const { Services, Users } = require("../models");
 
 class serviceService {
@@ -32,6 +32,9 @@ class serviceService {
     try {
       const condition = {
         attr: [
+          "id",
+          "status",
+          "bossId",
           "laundryImage",
           "laundryRequest",
           "nickname",

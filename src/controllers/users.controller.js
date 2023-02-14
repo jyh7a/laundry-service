@@ -76,7 +76,7 @@ class UsersController {
       const token = req.cookies.jwt;
       const { userId: id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
       const user = await this.userService.findUserInfo(id);
-      const { nickname, point } = user;
+      const { nickname } = user;
       // const { nickname } = res.locals.user;
       // 에러 테스트 코드
       if (!nickname) {
@@ -86,7 +86,7 @@ class UsersController {
         error.status = 401;
         throw error;
       }
-      res.status(200).send({ nickname, point });
+      res.status(200).send(user);
     } catch (error) {
       next(error);
     }

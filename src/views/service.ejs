@@ -15,8 +15,8 @@
     <div class="body">
       <%-include('./components/sidebar.ejs') %>
       <div id="content-wrapper" class="flex-direction-co">
-        <div class="contnet-nav">
-          <div class="left">
+        <div class="content-nav">
+          <!-- <div class="left">
             <div class="create-form btn">
               <a href="/services/form">서비스 신청</a>
             </div>
@@ -31,7 +31,7 @@
             <div class="service-status btn" data-value="3 completed">
               <a>완료</a>
             </div>
-          </div>
+          </div> -->
         </div>
         <div id="content">
           <div class="content-body"></div>
@@ -53,6 +53,10 @@
         if (isLogin === false) {
           return (window.location.href = "/");
         }
+
+        // create content-nav
+        createContentNav(userInfo.userType);
+
         // 유저 정보가 있으면
         // 해당 사용자의 모든 서비스 요청
 
@@ -62,11 +66,17 @@
           num: 0,
           type: "all",
         };
-        const services = await getServices(serviceStatusObj.type);
+        const services = await getServices(
+          serviceStatusObj.type,
+          userInfo.userType
+        );
         // 서비스 카드를 그려준다
-        createServiceCard(contentBody, services);
+        if (services.length > 0) {
+          createServiceCard(contentBody, services);
+        }
 
         createHeaderButton(isLogin);
+        getElemets(addEvnetStatusBtn, userInfo.userType);
         setPageInfo();
       })();
     </script>

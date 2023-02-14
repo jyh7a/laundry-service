@@ -11,12 +11,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       // Services.belongsTo(models.Users, { foreignKey: 'id', as:"user" });
       Services.belongsTo(models.Users, { foreignKey: "userId", as: "user" });
+      Services.belongsTo(models.Users, { foreignKey: "bossId", as: "boss" });
     }
   }
   Services.init(
     {
       nickname: DataTypes.STRING(255),
       userId: DataTypes.BIGINT.UNSIGNED,
+      bossId: DataTypes.BIGINT.UNSIGNED,
       phoneNumber: DataTypes.STRING(255),
       address: DataTypes.STRING(255),
       laundryImage: DataTypes.STRING(255),

@@ -3,9 +3,13 @@ const router = express.Router();
 
 const { upload } = require("../util/multer.util");
 const { auth_middleware } = require("../middleware/auth.middleware");
+const {
+  boss_check_middleware,
+} = require("../middleware/boss-check.middleware");
 
 const usersRouter = require("./users.routes");
-const servicesRouter = require("./services.routes");
+const customersServicesRouter = require("./customersServices.routes");
+const bossesServiceRouter = require("./bossesServices.routes");
 
 const UsersController = require("../controllers/users.controller");
 const usersController = new UsersController();
@@ -24,6 +28,13 @@ router.post(
 );
 
 router.use("/users", usersRouter);
-router.use("/services", auth_middleware, servicesRouter);
+// services
+router.use("/customers/services", auth_middleware, customersServicesRouter);
+router.use(
+  "/bosses/services",
+  auth_middleware,
+  boss_check_middleware,
+  bossesServiceRouter
+);
 
 module.exports = router;

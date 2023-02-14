@@ -1,4 +1,4 @@
-const serviceService = require("../services/services.service");
+const serviceService = require("../services/bossesServices.service");
 
 class servicesController {
   serviceService = new serviceService();
@@ -37,6 +37,7 @@ class servicesController {
   // create service
   createService = async (req, res, next) => {
     try {
+      // TODO : fix path for compatibility with windows(\\)
       const laundryImage = req.file.path.replace("src/public", "");
       const { laundryRequest, nickname, phoneNumber, address } = req.body;
       const { id: userId } = res.locals.user;

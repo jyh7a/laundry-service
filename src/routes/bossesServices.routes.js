@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const { upload } = require("../util/multer.util");
 
-const ServicesController = require("../controllers/services.controller");
+const ServicesController = require("../controllers/bossesServices.controller");
 const servicesController = new ServicesController();
 
 // 선택한 서비스 상세 정보
 router.get("/:serviceId", servicesController.findService);
 
-// 해당유저의 모든 서비스
+// 사장님의 모든 서비스
 router.get("/", servicesController.findAllService);
 
 // 서비스 등록

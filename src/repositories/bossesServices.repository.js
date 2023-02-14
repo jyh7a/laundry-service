@@ -6,11 +6,11 @@ class ServiceRepository {
     this.userModel = userModel;
   }
 
-  findAllService = async ({ userId, status }) => {
+  findAllService = async ({ bossId, status }) => {
     try {
       const services = await this.serviceModel.findAll({
         where: {
-          userId,
+          bossId,
           status,
         },
       });
