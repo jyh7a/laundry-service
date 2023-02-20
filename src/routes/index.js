@@ -5,7 +5,7 @@ const { upload } = require("../util/multer.util");
 const { auth_middleware } = require("../middleware/auth.middleware");
 const {
   boss_check_middleware,
-} = require("../middleware/boss-check.middleware");
+} = require("../middleware/user-role-check.middleware");
 
 const usersRouter = require("./users.routes");
 const customersServicesRouter = require("./customersServices.routes");
@@ -28,6 +28,7 @@ router.post(
 );
 
 router.use("/users", usersRouter);
+
 // services
 router.use("/customers/services", auth_middleware, customersServicesRouter);
 router.use(

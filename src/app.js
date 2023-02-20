@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 
 const cookieParser = require("cookie-parser");
 // http server를 socket.io server로 upgrade한다
@@ -7,17 +8,16 @@ var server = require("http").createServer(app);
 // http server를 socket.io server로 upgrade한다
 var io = require("socket.io")(server);
 
-const routes = require("./src/routes");
-const pageRoutes = require("./src/routes/pages.routes");
-const { logError } = require("./src/util/logger.util");
+const routes = require("./routes");
+const pageRoutes = require("./routes/pages.routes");
+const { logError } = require("./util/logger.util");
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(__dirname + "/src/public"));
-// require("dotenv").config({path:__dirname + '/src/.env'});
+app.use(express.static(path.join(__dirname + "/public")));
 require("dotenv").config();
 app.set("view engine", "ejs");
-app.set("views", "./src/views");
+app.set("views", path.join(__dirname, "views"));
 
 app.use("/", pageRoutes);
 app.use("/api", [routes]);
@@ -98,10 +98,6 @@ app.use((error, req, res, next) => {
     error,
   });
 });
-
-// app.listen(process.env.PORT, () => {
-//   console.log(`http://127.0.0.1:${process.env.PORT}`);
-// });
 
 server.listen(process.env.PORT, () => {
   console.log(`http://127.0.0.1:${process.env.PORT}`);

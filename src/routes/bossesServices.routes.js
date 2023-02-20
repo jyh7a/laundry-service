@@ -11,13 +11,13 @@ router.get("/:serviceId", servicesController.findService);
 // 사장님의 모든 서비스
 router.get("/", servicesController.findAllService);
 
-// 서비스 등록
-// 서비스는 userType - 0 인 손님만 가능
-router.post(
-  "/",
-  upload("upload-images/services").single("image"),
-  servicesController.createService
-);
+// 서비스 받기 {사장님(userType - 1)만 가능}
+// status 가 0 -> 1
+router.patch("/:serviceId", servicesController.updateServiceStatusToOne);
+
+// 서비스 업데이트 {사장님(userType - 1)만 가능}
+// status 가 1부터 2,3,4 까지만
+// router.patch("/:serviceId", servicesController.updateServiceStatus);
 
 // router.get("/info", servicesController.findUserInfo);
 // router.get("/:nickname", auth_middleware, servicesController.findUser);

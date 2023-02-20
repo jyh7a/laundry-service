@@ -71,7 +71,8 @@ class UsersController {
   findUserInfo = async (req, res, next) => {
     try {
       if (!req.cookies || !req.cookies.jwt) {
-        res.status(404);
+        return res.status(404).send({ message: "로그인이 필요합니다." });
+        // res.status(404);
       }
       const token = req.cookies.jwt;
       const { userId: id } = jwt.verify(token, process.env.JWT_SECRET_KEY);

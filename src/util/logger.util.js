@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { formattedDate } = require("../util/dateFormat.util");
+const { formattedDate } = require("../util/date-format.util");
 
 const logError = (error) => {
   const date = formattedDate(new Date(), "%Y-%m-%d %H:%M:%S");

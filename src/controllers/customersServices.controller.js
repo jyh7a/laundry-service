@@ -1,3 +1,4 @@
+const pathCompatibility = require("../util/path-compatibility.js");
 const serviceService = require("../services/customersServices.service");
 
 class servicesController {
@@ -38,7 +39,9 @@ class servicesController {
   createService = async (req, res, next) => {
     try {
       // TODO : fix path for compatibility with windows(\\)
-      const laundryImage = req.file.path.replace("src/public", "");
+      const excludePath = "src/public";
+      const _excludePath = pathCompatibility(excludePath);
+      const laundryImage = req.file.path.replace(_excludePath, "");
       const { laundryRequest, nickname, phoneNumber, address } = req.body;
       const { id: userId } = res.locals.user;
 

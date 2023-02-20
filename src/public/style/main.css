@@ -255,6 +255,9 @@ button:hover {
   justify-content: space-between;
   align-items: center;
 }
+body.boss #header {
+  background-color: #1e90ffa1;
+}
 
 #header .logo img {
   width: 200px;
@@ -404,15 +407,15 @@ tr:nth-child(even) {
 }
 
 .service-img {
-  flex: 0.2;
+  max-width: 20%;
   max-height: 100px;
 }
 .service-id {
-  flex: 0.2;
+  min-width: 20%;
   padding: 0.8rem;
 }
 .service-request {
-  flex: 0.6;
+  min-width: 60%;
   padding: 0.8rem;
 }
 .service-request span {
@@ -425,16 +428,27 @@ tr:nth-child(even) {
 }
 
 .service-detail {
-  flex: 0.4;
+  min-width: 40%;
   padding: 0.8rem;
 }
 
-.service-detail:hover {
+body.boss .service-detail {
+  min-width: 20%;
+  padding: 0.8rem;
+}
+
+.service-detail:hover,
+.service-update:hover {
   font-weight: bold;
 }
 
+.service-update {
+  min-width: 20%;
+  padding: 0.8rem;
+}
+
 .service-status-text {
-  flex: 0.6;
+  min-width: 60%;
   padding: 0.8rem;
 }
 
@@ -448,6 +462,10 @@ tr:nth-child(even) {
   background-color: #1e90ff3b;
   gap: 0.2rem;
   font-size: 0.7rem;
+}
+
+body.boss #footer {
+  background-color: #1e90ffa1;
 }
 
 #footer p,

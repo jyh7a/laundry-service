@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" href="/style/main.css" />
-    <title>세탁서비스</title>
-  </head>
+  <%-include('./components/head.ejs') %>
   <body>
     <%-include('./components/header.ejs') %>
 
@@ -94,7 +86,7 @@
         console.log({ isLogin });
 
         createHeaderButton(isLogin);
-        setPageInfo();
+        setPageInfo(userInfo);
 
         // 해당 서비스 데이터 요청을 보낸다
         const _serviceId = parseInt(

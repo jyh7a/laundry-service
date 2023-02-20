@@ -1,4 +1,5 @@
 const { sequelize } = require("../models");
+const { Op } = require("sequelize");
 
 class ServiceRepository {
   constructor(serviceModel, userModel) {
@@ -20,12 +21,26 @@ class ServiceRepository {
     }
   };
 
-  findService = async ({ attr, userId, serviceId }) => {
+  findAllServiceByBossIdIsNLL = async ({ bossId, status }) => {
+    try {
+      const services = await this.serviceModel.findAll({
+        where: {
+          [Op.or]: [{ bossId }, { bossId: null }],
+          status,
+        },
+      });
+      return services;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  findService = async ({ attr, bossId, serviceId }) => {
     try {
       let [service] = await this.serviceModel.findAll({
         attributes: attr,
         where: {
-          userId,
+          bossId: null,
           id: serviceId,
         },
       });
@@ -35,50 +50,23 @@ class ServiceRepository {
     }
   };
 
-  createService = async (
-    nickname,
-    userId,
-    laundryImage,
-    laundryRequest,
-    phoneNumber,
-    address
-  ) => {
+  updateServiceStatusToOne = async (bossId, serviceId) => {
     try {
-      // start the transaction
-      const transaction = await sequelize.transaction();
+      const updatedService = await this.serviceModel.update(
+        { bossId, status: 1 },
+        { where: { id: serviceId } }
+      );
+      return updatedService;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
-      try {
-        const service = await this.serviceModel.create(
-          {
-            nickname,
-            userId,
-            laundryImage,
-            laundryRequest,
-            phoneNumber,
-            address,
-          },
-          { transaction }
-        );
-
-        // transaction 테스트
-        // throw new Error("test");
-
-        // 유저 업데이트 (10000 포인트 차감)
-        await this.userModel.decrement("point", {
-          by: 10000,
-          where: { id: userId },
-          transaction,
-        });
-
-        // commit the transaction
-        await transaction.commit();
-
-        return service;
-      } catch (error) {
-        // handle any errors and rollback the transaction
-        await transaction.rollback();
-        throw new Error(error);
-      }
+  updateServiceStatus = async (bossId, serviceId) => {
+    try {
+      await serviceModel.increment("status", {
+        where: { id: serviceId, bossId },
+      });
     } catch (error) {
       throw new Error(error);
     }

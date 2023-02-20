@@ -1,3 +1,4 @@
+const pathCompatibility = require("../util/path-compatibility.js");
 const serviceService = require("../services/bossesServices.service");
 
 class servicesController {
@@ -34,23 +35,43 @@ class servicesController {
     }
   };
 
-  // create service
-  createService = async (req, res, next) => {
+  // update service status to one
+  updateServiceStatusToOne = async (req, res, next) => {
     try {
-      // TODO : fix path for compatibility with windows(\\)
-      const laundryImage = req.file.path.replace("src/public", "");
-      const { laundryRequest, nickname, phoneNumber, address } = req.body;
-      const { id: userId } = res.locals.user;
+      const { serviceId } = req.params;
+      const { id: bossId } = res.locals.user;
 
-      const service = await this.serviceService.createService(
-        nickname,
-        userId,
-        laundryImage,
-        laundryRequest,
-        phoneNumber,
-        address
+      const updatedService = await this.serviceService.updateServiceStatusToOne(
+        bossId,
+        serviceId
       );
-      res.status(201).json(service);
+
+      if (updatedService === 0) {
+        return res.status(400).json({ message: "error" });
+      }
+
+      res.status(200).json(updatedService);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // update service status from one
+  updateServiceStatus = async (req, res, next) => {
+    try {
+      const { serviceId } = req.params;
+      const { userId: bossId } = res.user;
+
+      const service = await this.serviceService.updateServiceStatusToOne(
+        bossId,
+        serviceId
+      );
+
+      if (service === 0) {
+        return res.status(400).json({ message: "error" });
+      }
+
+      res.status(200).json(service);
     } catch (error) {
       next(error);
     }

@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" href="/style/main.css" />
-    <title>세탁서비스</title>
-  </head>
+  <%-include('./components/head.ejs') %>
   <body>
     <%-include('./components/header.ejs') %>
 
@@ -45,39 +37,7 @@
     <script>
       // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
       (async () => {
-        const userInfo = await getUserInfo();
-        console.log({ userInfo });
-        const isLogin = !!userInfo;
-        console.log({ isLogin });
-
-        if (isLogin === false) {
-          return (window.location.href = "/");
-        }
-
-        // create content-nav
-        createContentNav(userInfo.userType);
-
-        // 유저 정보가 있으면
-        // 해당 사용자의 모든 서비스 요청
-
-        const serviceStatusObj = JSON.parse(
-          localStorage.getItem("serviceStatus")
-        ) || {
-          num: 0,
-          type: "all",
-        };
-        const services = await getServices(
-          serviceStatusObj.type,
-          userInfo.userType
-        );
-        // 서비스 카드를 그려준다
-        if (services.length > 0) {
-          createServiceCard(contentBody, services);
-        }
-
-        createHeaderButton(isLogin);
-        getElemets(addEvnetStatusBtn, userInfo.userType);
-        setPageInfo();
+        await serviceInit();
       })();
     </script>
   </body>

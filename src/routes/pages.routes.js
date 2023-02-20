@@ -4,6 +4,9 @@ const { auth_middleware } = require("../middleware/auth.middleware");
 const {
   login_check_middleware,
 } = require("../middleware/login-check.middleware");
+const {
+  customer_check_middleware,
+} = require("../middleware/user-role-check.middleware");
 
 // 기본페이지 -> 로그인 페이지
 router.get("/", login_check_middleware, (req, res) => {
@@ -42,7 +45,7 @@ router.get("/users", auth_middleware, (req, res) => {
 });
 
 // 서비스 페이지
-router.get("/services", (req, res) => {
+router.get("/services", auth_middleware, (req, res) => {
   try {
     return res.render("service");
   } catch (error) {
@@ -51,13 +54,18 @@ router.get("/services", (req, res) => {
 });
 
 // 서비스 폼 페이지
-router.get("/services/form", (req, res) => {
-  try {
-    return res.render("service-form");
-  } catch (error) {
-    console.log(error.message);
+router.get(
+  "/services/form",
+  auth_middleware,
+  customer_check_middleware,
+  (req, res) => {
+    try {
+      return res.render("service-form");
+    } catch (error) {
+      console.log(error.message);
+    }
   }
-});
+);
 
 // 서비스 폼 상세
 router.get("/services/:serviceId", (req, res) => {

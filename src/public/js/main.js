@@ -1,5 +1,7 @@
 // elements
+const body = document.getElementsByTagName("body")[0];
 const logo = document.querySelector(".logo");
+const home_btn = document.querySelector(".home-btn");
 const sidebar = document.querySelector(".sidebar");
 const sidebarList = sidebar?.getElementsByTagName("li");
 const contnetNav = document.querySelector(".content-nav");
@@ -42,7 +44,13 @@ const getStatus = (status) => {
 };
 
 // set pageInfo(use localStorage)
-const setPageInfo = () => {
+const setPageInfo = (userInfo) => {
+  // 유저 타입이 1 === 사장님이면
+  // body 태그에 boss 클래스를 붙여준다.
+  if (userInfo?.userType === 1) {
+    body.classList.add("boss");
+  }
+
   const laundryMenuNum = parseInt(localStorage.getItem("laundryMenu"), 10) || 0;
   const serviceStatusObj = JSON.parse(
     localStorage.getItem("serviceStatus")
@@ -237,40 +245,71 @@ const createUserTable = (table, data) => {
 };
 
 // create user service template
-const createServiceCard = (body, data) => {
+const createServiceCard = (body, data, userType) => {
   let hmtl = "";
 
   data.map((item) => {
     let status = getStatus(item.status);
 
-    hmtl += `<div class="service-card">
-      <div class="service-top flex-box align-items-ih">
-        <div class="service-img">
-          <img src="${item.laundryImage}" alt="세탁물 이미지" />
+    if (userType === 0) {
+      hmtl += `
+        <div class="service-card">
+          <div class="service-top flex-box align-items-ih">
+            <div class="service-img">
+              <img src="${item.laundryImage}" alt="세탁물 이미지" />
+            </div>
+            <div class="service-id">
+              <span>주문번호:&nbsp;</span>${item.id}
+            </div>
+            <div class="service-request">
+              <span>요청사항:&nbsp; </span>${item.laundryRequest}
+            </div>
+          </div>
+          <div class="service-bottom flex-box">
+            <div class="service-detail cp text-align-ct">
+              <a href="/services/${item.id}">👉 상세보기</a>
+            </div>
+            <div class="service-status-text">
+              <span>진행상황:&nbsp;</span>${status}
+            </div>
+          </div>
         </div>
-        <div class="service-id">
-          <span>주문번호:&nbsp;</span>${item.id}
+    `;
+    } else if (userType === 1) {
+      hmtl += `
+      <div class="service-card">
+        <div class="service-top flex-box align-items-ih">
+          <div class="service-img">
+            <img src="${item.laundryImage}" alt="세탁물 이미지" />
+          </div>
+          <div class="service-id">
+            <span>주문번호:&nbsp;</span>${item.id}
+          </div>
+          <div class="service-request">
+            <span>요청사항:&nbsp; </span>${item.laundryRequest}
+          </div>
         </div>
-        <div class="service-request">
-          <span>요청사항:&nbsp; </span>${item.laundryRequest}
+        <div class="service-bottom flex-box">
+          <div class="service-detail cp text-align-ct">
+            <a href="/services/${item.id}">👉 상세보기</a>
+          </div>
+          <div class="service-update cp text-align-ct">
+            <a href="/services/${item.id}">👉 신청하기</a>
+          </div>
+          <div class="service-status-text">
+            <span>진행상황:&nbsp;</span>${status}
+          </div>
         </div>
       </div>
-      <div class="service-bottom flex-box">
-        <div class="service-detail cp text-align-ct">
-          <a href="/services/${item.id}">👉 상세보기</a>
-        </div>
-        <div class="service-status-text">
-          <span>진행상황:&nbsp;</span>${status}
-        </div>
-      </div>
-    </div>`;
+      `;
+    }
   });
 
   body.innerHTML = hmtl;
 };
 
 // create content-nav
-const createContentNav = (userType) => {
+const createServiceContentNav = (userType) => {
   // userType
   // 0 - 고객
   // 1 - 사장님
@@ -297,7 +336,10 @@ const createContentNav = (userType) => {
   } else {
     html = `
       <div class="left">
-      </div>
+        <div class="create-form btn">
+            <a href="/services/form">서비스 신청 테스트</a>
+          </div>
+        </div>
       <div class="right">
         <div class="service-status btn" data-value="1 all">
           <a>전체</a>
@@ -320,6 +362,11 @@ const createContentNav = (userType) => {
 
 // logo click
 logo?.addEventListener("click", function (e) {
+  createPageInfo({ laundryMenu: 1 });
+});
+
+// home-btn click
+home_btn?.addEventListener("click", function (e) {
   createPageInfo({ laundryMenu: 1 });
 });
 
@@ -348,8 +395,82 @@ const addEvnetStatusBtn = (userType) => {
           type: "all",
         };
         const services = await getServices(serviceStatusObj.type, userType);
-        createServiceCard(contentBody, services);
+        console.log(services);
+        createServiceCard(contentBody, services, userType);
       });
     }
+  }
+};
+
+// service init
+const serviceInit = async () => {
+  const userInfo = await getUserInfo();
+  console.log({ userInfo });
+  const isLogin = !!userInfo;
+  console.log({ isLogin });
+
+  if (isLogin === false) {
+    return (window.location.href = "/");
+  }
+
+  // create content-nav
+  createServiceContentNav(userInfo.userType);
+
+  // 유저 정보가 있으면
+  // 해당 사용자의 모든 서비스 요청
+
+  const serviceStatusObj = JSON.parse(
+    localStorage.getItem("serviceStatus")
+  ) || {
+    num: 0,
+    type: "all",
+  };
+  const services = await getServices(serviceStatusObj.type, userInfo.userType);
+
+  console.log(services);
+  // 서비스 카드를 그려준다
+  if (services.length >= 0) {
+    createServiceCard(contentBody, services, userInfo.userType);
+  }
+
+  createHeaderButton(isLogin);
+  getElemets(addEvnetStatusBtn, userInfo.userType);
+  setPageInfo(userInfo);
+
+  // 신청하기 버튼 클릭
+  const service_update_btns = document.querySelectorAll(".service-update > a");
+
+  for (const service_update_btn of service_update_btns) {
+    service_update_btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const serviceId = e.currentTarget.attributes[0].value.replace(
+        "/services/",
+        ""
+      );
+
+      if (window.confirm("정말 신청하시겠습니까?")) {
+        // 확인 버튼을 클릭한 경우 수행할 작업
+        const res = await axios
+          .patch(`/api/bosses/services/${serviceId}`, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then(function (response) {
+            if (response?.status === 200) {
+              serviceInit();
+              // window.location.href = "/services";
+            }
+          })
+          .catch(function (error) {
+            if (error?.response?.data?.message) {
+              alert(error.response.data.message);
+            }
+            console.log(error.message);
+          });
+      } else {
+        // 취소 버튼을 클릭한 경우 수행할 작업
+      }
+    });
   }
 };
