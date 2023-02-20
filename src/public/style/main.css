@@ -184,6 +184,10 @@ img {
   margin-top: 2rem;
 }
 
+.pd-10 {
+  padding: 10px;
+}
+
 .w-100 {
   width: 100%;
 }
@@ -206,6 +210,10 @@ img {
 
 button {
   cursor: pointer;
+}
+
+button a {
+  padding: 10px;
 }
 
 button:hover {
@@ -343,7 +351,6 @@ body.boss #header {
 #form input,
 #form textarea,
 button {
-  padding: 10px;
   outline: 3px solid dodgerblue;
   border-radius: 0.7rem;
   border: none;

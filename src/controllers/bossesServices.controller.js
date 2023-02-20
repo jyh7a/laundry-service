@@ -36,33 +36,37 @@ class servicesController {
   };
 
   // update service status to one
-  updateServiceStatusToOne = async (req, res, next) => {
-    try {
-      const { serviceId } = req.params;
-      const { id: bossId } = res.locals.user;
+  // updateServiceStatusToOne = async (req, res, next) => {
+  //   try {
+  //     const { serviceId } = req.params;
+  //     const { id: bossId } = res.locals.user;
 
-      const updatedService = await this.serviceService.updateServiceStatusToOne(
-        bossId,
-        serviceId
-      );
+  //     if (updatedService === 0) {
+  //       return res.status(400).json({ message: "error" });
+  //     }
 
-      if (updatedService === 0) {
-        return res.status(400).json({ message: "error" });
-      }
-
-      res.status(200).json(updatedService);
-    } catch (error) {
-      next(error);
-    }
-  };
+  //     res.status(200).json(updatedService);
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
 
   // update service status from one
   updateServiceStatus = async (req, res, next) => {
     try {
       const { serviceId } = req.params;
-      const { userId: bossId } = res.user;
+      const { id: bossId } = res.locals.user;
 
-      const service = await this.serviceService.updateServiceStatusToOne(
+      // 서비스 아이디와 그 서비스의 상태 알아내서
+      // 서비스 상태가 0 이면 updateServiceStatusToOne
+      // 서비스 상태가 1 ~ 3이면 updateServiceStatus
+
+      // const updatedService = await this.serviceService.updateServiceStatusToOne(
+      //   bossId,
+      //   serviceId
+      // );
+
+      const service = await this.serviceService.updateServiceStatus(
         bossId,
         serviceId
       );

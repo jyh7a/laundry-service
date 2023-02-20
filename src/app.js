@@ -7,10 +7,12 @@ const cookieParser = require("cookie-parser");
 var server = require("http").createServer(app);
 // http server를 socket.io server로 upgrade한다
 var io = require("socket.io")(server);
+module.exports = { io };
 
 const routes = require("./routes");
 const pageRoutes = require("./routes/pages.routes");
 const { logError } = require("./util/logger.util");
+const { Model } = require("sequelize");
 
 app.use(express.json());
 app.use(cookieParser());

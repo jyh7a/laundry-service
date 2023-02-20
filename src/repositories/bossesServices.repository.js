@@ -40,11 +40,25 @@ class ServiceRepository {
       let [service] = await this.serviceModel.findAll({
         attributes: attr,
         where: {
-          bossId: null,
+          bossId,
           id: serviceId,
         },
       });
       return service;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  findServiceStatus = async ({ attr, serviceId }) => {
+    try {
+      let [service] = await this.serviceModel.findAll({
+        attributes: attr,
+        where: {
+          id: serviceId,
+        },
+      });
+      return service.status;
     } catch (error) {
       throw new Error(error);
     }
@@ -64,7 +78,7 @@ class ServiceRepository {
 
   updateServiceStatus = async (bossId, serviceId) => {
     try {
-      await serviceModel.increment("status", {
+      await this.serviceModel.increment("status", {
         where: { id: serviceId, bossId },
       });
     } catch (error) {

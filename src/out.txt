@@ -1,0 +1,115 @@
+/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src
+├── app.js
+├── config
+|  └── config.js
+├── controllers
+|  ├── bossesServices.controller.js
+|  ├── customersServices.controller.js
+|  └── users.controller.js
+├── logs
+|  └── error.log
+├── middleware
+|  ├── auth.middleware.js
+|  ├── login-check.middleware.js
+|  ├── user-role-check.middleware.js
+|  └── user.js
+├── migrations
+|  ├── 20230126024548-create-users.js
+|  ├── 20230126025817-create-services.js
+|  └── 20230126030105-create-reviews.js
+├── models
+|  ├── index.js
+|  ├── reviews.js
+|  ├── services.js
+|  └── users.js
+├── out.txt
+├── public
+|  ├── images
+|  |  ├── default-user.jpg
+|  |  ├── favicon.png
+|  |  └── logo.png
+|  ├── js
+|  |  └── main.js
+|  ├── style
+|  |  └── main.css
+|  └── upload-images
+|     ├── services
+|     |  ├── bGF1bmRyeTEtMTY3NTMyODE4MDc5OA==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTMyODEyNDMxMA==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTMyODIwMTI4Ng==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTMyODIyNjIwMg==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTMyODIzMjU4OQ==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTMyODMzNzI3OQ==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTMyODQzOTAxNA==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTMyODU1MDUzNA==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTkxMTgxMTQ3Ng==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTkyNDQ4NzM1Mg==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTkyNjk0OTU2Nw==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTkyNzEzNzAyNg==.jpg
+|     |  ├── bGF1bmRyeTEtMTY3NTkyNzUyNTA5MA==.jpg
+|     |  ├── bGF1bmRyeTItMTY3NTkxMjAzMjQyNA==.jpg
+|     |  ├── bGF1bmRyeTItMTY3NTkyNjIwNTQ2MA==.jpg
+|     |  ├── bGF1bmRyeTMtMTY3NTkxMjM4MDc2OA==.jpg
+|     |  ├── bGF1bmRyeTMtMTY3NTkyNzEwMzgzMA==.jpg
+|     |  ├── bGF1bmRyeTMtMTY3NTkyNzY1Mzg3NQ==.jpg
+|     |  ├── bGF1bmRyeTMtMTY3NTkyNzYyOTk1MQ==.jpg
+|     |  ├── bGF1bmRyeTQtMTY3NTkyNDc0Njc3Mg==.jpg
+|     |  ├── bGF1bmRyeTQtMTY3NTkyNjk4MDEwNA==.jpg
+|     |  ├── bGF1bmRyeTUtMTY3NTkyNzA1MjMxMQ==.jpg
+|     |  ├── dXNlcjItMTY3NTkyNjIzNDEzMg==.jpg
+|     |  ├── w6HChMKLw6HChcKyw6HChMKMw6HChcKlMy0xNjc1OTI1NzM4MDc4.jpg
+|     |  ├── w6HChMKLw6HChcKyw6HChMKMw6HChcKlNC0xNjc1OTI0MzI4MTg1.jpg
+|     |  ├── w6HChMKLw6HChcKyw6HChMKMw6HChcKlNC0xNjc1OTI2MDczMzI4.jpg
+|     |  ├── w6HChMKLw6HChcKyw6HChMKMw6HChcKlNC0xNjc1OTI3MDY3MjE1.jpg
+|     |  └── w6HChMKLw6HChcKyw6HChMKMw6HChcKlNC0xNjc1OTI3NjAyNDcw.jpg
+|     └── users
+|        ├── dXNlcjItMTY3NTMyMTU5NTY0MQ==.jpg
+|        ├── uer1-1675313159138.jpg
+|        ├── w6HChMKLw6HChcKyw6HChMKMw6HChcKlMy0xNjc1MzEzMzI5MTc3.jpg
+|        ├── w6HChMKLw6HChcKyw6HChMKMw6HChcKlMy0xNjc1MzEzMzk2NDgw.jpg
+|        ├── w6HChMKLw6HChcKyw6HChMKMw6HChcKlNC0xNjc1MzE0MDY0MDc0.jpg
+|        ├── w6HChMKLw6HChcKyw6HChMKMw6HChcKlNC0xNjc1MzE0MTIyNDE2.jpg
+|        ├── w6HChMKLw6HChcKyw6HChMKMw6HChcKlNC0xNjc1MzE0MTYxNTE1.jpg
+|        └── w6HChMKLw6HChcKyw6HChMKMw6HChcKlNC0xNjc1MzEzOTk5Mjk5.jpg
+├── repositories
+|  ├── bossesServices.repository.js
+|  ├── customersServices.repository.js
+|  └── users.repository.js
+├── routes
+|  ├── bossesServices.routes.js
+|  ├── customersServices.routes.js
+|  ├── index.js
+|  ├── pages.routes.js
+|  └── users.routes.js
+├── seeders
+|  └── users.js
+├── services
+|  ├── bossesServices.service.js
+|  ├── customersServices.service.js
+|  └── users.service.js
+├── util
+|  ├── date-format.util.js
+|  ├── logger.util.js
+|  ├── multer.util.js
+|  └── path-compatibility.js
+└── views
+   ├── components
+   |  ├── footer.ejs
+   |  ├── head.ejs
+   |  ├── header.ejs
+   |  ├── sidebar.ejs
+   |  └── test
+   |     ├── input-test.ejs
+   |     └── socket-test.ejs
+   ├── error.ejs
+   ├── index.ejs
+   ├── login.ejs
+   ├── notfound.ejs
+   ├── service-detail.ejs
+   ├── service-form.ejs
+   ├── service.ejs
+   ├── signup.ejs
+   └── user.ejs
+
+directory: 21 file: 90
+

@@ -38,6 +38,13 @@
       // 즉시 실행 함수에 async를 줘서 구현 => getUserInfo 함수에서 비동기 요청을함
       (async () => {
         await serviceInit();
+
+        const socket = io();
+        socket.on("service-updated", function (data) {
+          if (data > 0) {
+            serviceInit();
+          }
+        });
       })();
     </script>
   </body>

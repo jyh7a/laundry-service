@@ -1,3 +1,4 @@
+const { io } = require("../app.js");
 const ServiceRepository = require("../repositories/bossesServices.repository");
 const { Services, Users } = require("../models");
 
@@ -89,6 +90,16 @@ class serviceService {
           bossId,
           serviceId
         );
+
+      // updatedService 있으면 updatedService > 0
+      // socket을 통해서 프론트에 값 1을 전달하여서
+      // 서비스 데이터 받는 함수를 실행시킨다.
+      if (updatedService > 0) {
+        io.emit("service-updated", 1);
+      } else {
+        io.emit("service-updated", 0);
+      }
+
       return updatedService;
     } catch (err) {
       throw err;
@@ -97,20 +108,47 @@ class serviceService {
 
   updateServiceStatus = async (bossId, serviceId) => {
     try {
-      const condition = {
-        attr: [
-          "id",
-          "status",
-          "bossId",
-          "laundryImage",
-          "laundryRequest",
-          "nickname",
-          "phoneNumber",
-          "address",
-        ],
-        bossId,
+      const bossStatusCondition = {
+        attr: ["status"],
         serviceId,
       };
+      const _serviceStatus = await this.serviceRepository.findServiceStatus(
+        bossStatusCondition
+      );
+
+      let condition = null;
+      if (_serviceStatus === 0) {
+        condition = {
+          attr: [
+            "id",
+            "status",
+            "bossId",
+            "laundryImage",
+            "laundryRequest",
+            "nickname",
+            "phoneNumber",
+            "address",
+          ],
+          bossId: null,
+          serviceId,
+        };
+      } else if (_serviceStatus > 0) {
+        condition = {
+          attr: [
+            "id",
+            "status",
+            "bossId",
+            "laundryImage",
+            "laundryRequest",
+            "nickname",
+            "phoneNumber",
+            "address",
+          ],
+          bossId,
+          serviceId,
+        };
+      }
+
       const service = await this.serviceRepository.findService(condition);
 
       // 해당하는 서비스가 없거나
@@ -119,16 +157,26 @@ class serviceService {
       }
 
       const { status: serviceStatus } = service;
-      // serviceStatus 0 - 대기중, 4 - 완료 가 아닐때만 업데이트 진행
-      if (serviceStatus === 0 || serviceStatus === 4) {
+
+      if (serviceStatus === 4) {
         return 0;
       }
 
-      const updatedService =
-        await this.serviceRepository.updateServiceStatusToOne(
+      // 서비스 상태가 0 이면 updateServiceStatusToOne
+      // 서비스 상태가 1 ~ 3이면 updateServiceStatus
+      let updatedService = null;
+      if (serviceStatus === 0) {
+        updatedService = await this.serviceRepository.updateServiceStatusToOne(
           bossId,
           serviceId
         );
+      } else if (serviceStatus > 0 && serviceStatus < 4) {
+        updatedService = await this.serviceRepository.updateServiceStatus(
+          bossId,
+          serviceId
+        );
+      }
+
       return updatedService;
     } catch (err) {
       throw err;
