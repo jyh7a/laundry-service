@@ -1,1 +1,7 @@
-tree -l 4 -I 'node_modules' -o out.txt
+## mac
+
+- tree -l 2 -o out.txt -d
+
+## window
+
+- treee -l 2 -o out.txt -d
