@@ -35,12 +35,11 @@ class ServiceRepository {
     }
   };
 
-  findService = async ({ attr, bossId, serviceId }) => {
+  findService = async ({ attr, serviceId }) => {
     try {
       let [service] = await this.serviceModel.findAll({
         attributes: attr,
         where: {
-          bossId,
           id: serviceId,
         },
       });
@@ -78,9 +77,10 @@ class ServiceRepository {
 
   updateServiceStatus = async (bossId, serviceId) => {
     try {
-      await this.serviceModel.increment("status", {
+      const result = await this.serviceModel.increment("status", {
         where: { id: serviceId, bossId },
       });
+      return result;
     } catch (error) {
       throw new Error(error);
     }

@@ -94,7 +94,7 @@
           10
         );
 
-        const data = await getService(_serviceId);
+        const data = await getService(_serviceId, userInfo.userType);
         console.log({ data });
 
         const serviceId = document.querySelector("#serviceId");

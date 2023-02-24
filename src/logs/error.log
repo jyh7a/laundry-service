@@ -211,3 +211,51 @@
     at serviceService.updateServiceStatus (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/services/bossesServices.service.js:152:52)
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
     at async updateServiceStatus (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/controllers/bossesServices.controller.js:69:23) 
+[2023-02-23 17:57:24]: Error: Error: WHERE parameter "bossId" has invalid "undefined" value
+    at ServiceRepository.findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/repositories/bossesServices.repository.js:49:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async serviceService.findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/services/bossesServices.service.js:53:23)
+    at async findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/controllers/bossesServices.controller.js:31:23) 
+[2023-02-23 17:57:27]: Error: Error: WHERE parameter "bossId" has invalid "undefined" value
+    at ServiceRepository.findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/repositories/bossesServices.repository.js:49:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async serviceService.findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/services/bossesServices.service.js:53:23)
+    at async findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/controllers/bossesServices.controller.js:31:23) 
+[2023-02-23 17:57:36]: Error: Error: WHERE parameter "bossId" has invalid "undefined" value
+    at ServiceRepository.findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/repositories/bossesServices.repository.js:49:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async serviceService.findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/services/bossesServices.service.js:53:23)
+    at async findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/controllers/bossesServices.controller.js:31:23) 
+[2023-02-23 18:10:59]: ReferenceError: id is not defined
+    at findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/controllers/bossesServices.controller.js:31:61)
+    at Layer.handle [as handle_request] (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:284:15
+    at param (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:365:14)
+    at param (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:376:14)
+    at Function.process_params (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:421:3)
+    at next (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:280:10) 
+[2023-02-23 18:11:03]: ReferenceError: id is not defined
+    at findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/controllers/bossesServices.controller.js:31:61)
+    at Layer.handle [as handle_request] (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:284:15
+    at param (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:365:14)
+    at param (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:376:14)
+    at Function.process_params (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:421:3)
+    at next (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:280:10) 
+[2023-02-23 18:12:41]: ReferenceError: id is not defined
+    at findService (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/src/controllers/bossesServices.controller.js:31:61)
+    at Layer.handle [as handle_request] (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:284:15
+    at param (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:365:14)
+    at param (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:376:14)
+    at Function.process_params (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:421:3)
+    at next (/Users/jyh7a/Documents/projects/node/sparta/my-bae-cam-node-js-deepening-week/homework/node_modules/express/lib/router/index.js:280:10) 

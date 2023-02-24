@@ -20,6 +20,45 @@ const numberWithCommas = (integer) => {
   return integer.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+// 신청하기 버튼 클릭
+const addEventOnServiceUpdateBtns = () => {
+  const service_update_btns = document.querySelectorAll(".service-update > a");
+
+  for (const service_update_btn of service_update_btns) {
+    service_update_btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const serviceId = e.currentTarget.attributes[0].value.replace(
+        "/services/",
+        ""
+      );
+
+      if (window.confirm("정말 신청하시겠습니까?")) {
+        // 확인 버튼을 클릭한 경우 수행할 작업
+        const res = await axios
+          .patch(`/api/bosses/services/${serviceId}`, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then(function (response) {
+            if (response?.status === 200) {
+              serviceInit();
+              // window.location.href = "/services";
+            }
+          })
+          .catch(function (error) {
+            if (error?.response?.data?.message) {
+              alert(error.response.data.message);
+            }
+            console.log(error.message);
+          });
+      } else {
+        // 취소 버튼을 클릭한 경우 수행할 작업
+      }
+    });
+  }
+};
+
 // get status
 const getStatus = (status) => {
   switch (status) {
@@ -187,16 +226,22 @@ const getServices = async (status = "all", userType = 0) => {
 
 // 해당 유저의 선택된 서비스 정보 요청
 // 고객인지 사장님인지는 서버에서 판단
-const getService = async (serviceId) => {
+const getService = async (serviceId, userType = 0) => {
   try {
-    const response = await axios.get(`/api/services/${serviceId}`);
+    let url = null;
+    if (userType === 0) {
+      url = `/api/customers/services/${serviceId}`;
+    } else {
+      url = `/api/bosses/services/${serviceId}`;
+    }
+    const response = await axios.get(url);
     return response.data;
   } catch (error) {
     return 0;
   }
 };
 
-// create user table template
+// create table template
 const createUserTable = (table, data) => {
   const point = numberWithCommas(data.point);
   const userType = data.userType === 0 ? "손님" : "사장님";
@@ -244,9 +289,10 @@ const createUserTable = (table, data) => {
   `;
 };
 
-// create user service template
-const createServiceCard = (body, data, userType) => {
+// create service template
+const createServiceCard = (body, data, userType, options = {}) => {
   let hmtl = "";
+  const { status: _status = null } = options;
 
   data.map((item) => {
     let status = getStatus(item.status);
@@ -276,32 +322,88 @@ const createServiceCard = (body, data, userType) => {
         </div>
     `;
     } else if (userType === 1) {
-      hmtl += `
-      <div class="service-card">
-        <div class="service-top flex-box align-items-ih">
-          <div class="service-img">
-            <img src="${item.laundryImage}" alt="세탁물 이미지" />
+      if (_status === 0 || _status === null) {
+        hmtl += `
+        <div class="service-card">
+          <div class="service-top flex-box align-items-ih">
+            <div class="service-img">
+              <img src="${item.laundryImage}" alt="세탁물 이미지" />
+            </div>
+            <div class="service-id">
+              <span>주문번호:&nbsp;</span>${item.id}
+            </div>
+            <div class="service-request">
+              <span>요청사항:&nbsp; </span>${item.laundryRequest}
+            </div>
           </div>
-          <div class="service-id">
-            <span>주문번호:&nbsp;</span>${item.id}
-          </div>
-          <div class="service-request">
-            <span>요청사항:&nbsp; </span>${item.laundryRequest}
+          <div class="service-bottom flex-box">
+            <div class="service-detail cp text-align-ct">
+              <a href="/services/${item.id}">👉 상세보기</a>
+            </div>
+            <div class="service-update cp text-align-ct">
+              <a href="/services/${item.id}">👉 신청하기</a>
+            </div>
+            <div class="service-status-text">
+              <span>진행상황:&nbsp;</span>${status}
+            </div>
           </div>
         </div>
-        <div class="service-bottom flex-box">
-          <div class="service-detail cp text-align-ct">
-            <a href="/services/${item.id}">👉 상세보기</a>
+        `;
+      } else if (_status === 1) {
+        hmtl += `
+        <div class="service-card">
+          <div class="service-top flex-box align-items-ih">
+            <div class="service-img">
+              <img src="${item.laundryImage}" alt="세탁물 이미지" />
+            </div>
+            <div class="service-id">
+              <span>주문번호:&nbsp;</span>${item.id}
+            </div>
+            <div class="service-request">
+              <span>요청사항:&nbsp; </span>${item.laundryRequest}
+            </div>
           </div>
-          <div class="service-update cp text-align-ct">
-            <a href="/services/${item.id}">👉 신청하기</a>
-          </div>
-          <div class="service-status-text">
-            <span>진행상황:&nbsp;</span>${status}
+          <div class="service-bottom flex-box">
+            <div class="service-detail cp text-align-ct">
+              <a href="/services/${item.id}">👉 상세보기</a>
+            </div>
+            <div class="service-update cp text-align-ct">
+              <a href="/services/${item.id}">👉 상태 업데이트</a>
+            </div>
+            <div class="service-status-text">
+              <span>진행상황:&nbsp;</span>${status}
+            </div>
           </div>
         </div>
-      </div>
-      `;
+        `;
+      } else if (_status === 2) {
+        hmtl += `
+        <div class="service-card">
+          <div class="service-top flex-box align-items-ih">
+            <div class="service-img">
+              <img src="${item.laundryImage}" alt="세탁물 이미지" />
+            </div>
+            <div class="service-id">
+              <span>주문번호:&nbsp;</span>${item.id}
+            </div>
+            <div class="service-request">
+              <span>요청사항:&nbsp; </span>${item.laundryRequest}
+            </div>
+          </div>
+          <div class="service-bottom flex-box">
+            <div class="service-detail cp text-align-ct">
+              <a href="/services/${item.id}">👉 상세 보기</a>
+            </div>
+            <div class="service-update cp text-align-ct">
+              <a href="/services/${item.id}">👉 서비스 완료</a>
+            </div>
+            <div class="service-status-text">
+              <span>진행상황:&nbsp;</span>${status}
+            </div>
+          </div>
+        </div>
+        `;
+      }
     }
   });
 
@@ -345,13 +447,13 @@ const createServiceContentNav = (userType) => {
           <a>전체</a>
         </div>
         <div class="service-status btn" data-value="2 pending">
-          <a>대기중</a>
+          <a href="/services?status=pending">대기중</a>
         </div>
         <div class="service-status btn" data-value="3 inprogress">
-          <a>진행중</a>
+          <a href="/services?status=inprogress">진행중</a>
         </div>
         <div class="service-status btn" data-value="4 completed">
-          <a>완료</a>
+          <a href="/services?status=completed">완료</a>
         </div>
       </div>
     `;
@@ -381,6 +483,7 @@ const addEvnetStatusBtn = (userType) => {
   if (serviceStatus.length > 0) {
     for (let i = 0; i < serviceStatus.length; i++) {
       serviceStatus[i].addEventListener("click", async function (e) {
+        e.preventDefault();
         let [num, type] = this.dataset.value.split(" ");
         num -= 1;
         const serviceStatus = JSON.stringify({ num, type });
@@ -395,8 +498,17 @@ const addEvnetStatusBtn = (userType) => {
           type: "all",
         };
         const services = await getServices(serviceStatusObj.type, userType);
-        console.log(services);
-        createServiceCard(contentBody, services, userType);
+        let status = null;
+        if (e.target.href.includes("pending")) {
+          status = 0;
+        } else if (e.target.href.includes("inprogress")) {
+          status = 1;
+        } else if (e.target.href.includes("completed")) {
+          status = 2;
+        }
+        console.log({ status });
+        createServiceCard(contentBody, services, userType, { status });
+        addEventOnServiceUpdateBtns();
       });
     }
   }
@@ -438,39 +550,5 @@ const serviceInit = async () => {
   setPageInfo(userInfo);
 
   // 신청하기 버튼 클릭
-  const service_update_btns = document.querySelectorAll(".service-update > a");
-
-  for (const service_update_btn of service_update_btns) {
-    service_update_btn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const serviceId = e.currentTarget.attributes[0].value.replace(
-        "/services/",
-        ""
-      );
-
-      if (window.confirm("정말 신청하시겠습니까?")) {
-        // 확인 버튼을 클릭한 경우 수행할 작업
-        const res = await axios
-          .patch(`/api/bosses/services/${serviceId}`, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          .then(function (response) {
-            if (response?.status === 200) {
-              serviceInit();
-              // window.location.href = "/services";
-            }
-          })
-          .catch(function (error) {
-            if (error?.response?.data?.message) {
-              alert(error.response.data.message);
-            }
-            console.log(error.message);
-          });
-      } else {
-        // 취소 버튼을 클릭한 경우 수행할 작업
-      }
-    });
-  }
+  addEventOnServiceUpdateBtns();
 };

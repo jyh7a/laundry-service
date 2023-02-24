@@ -26,9 +26,9 @@ class servicesController {
       // 파라미터 가지고온다.
       const { serviceId } = req.params;
       // 유저 id는 인증 미들웨어에서 가지고 온다 => res.locals.user
-      const { id } = res.locals.user;
+      // const { id } = res.locals.user;
 
-      const service = await this.serviceService.findService(id, serviceId);
+      const service = await this.serviceService.findService(serviceId);
       res.status(200).json(service);
     } catch (error) {
       next(error);

@@ -1,4 +1,5 @@
-const { io } = require("../app.js");
+// const { io } = require("../app.js");
+const { io } = require("../util/socket");
 const ServiceRepository = require("../repositories/bossesServices.repository");
 const { Services, Users } = require("../models");
 
@@ -33,7 +34,7 @@ class serviceService {
     }
   };
 
-  findService = async (userId, serviceId) => {
+  findService = async (serviceId) => {
     try {
       const condition = {
         attr: [
@@ -46,7 +47,6 @@ class serviceService {
           "phoneNumber",
           "address",
         ],
-        userId,
         serviceId,
       };
       const service = await this.serviceRepository.findService(condition);
@@ -170,13 +170,24 @@ class serviceService {
           bossId,
           serviceId
         );
+
+        if (updatedService > 0) {
+          io.emit("service-updated", 1);
+        } else {
+          io.emit("service-updated", 0);
+        }
       } else if (serviceStatus > 0 && serviceStatus < 4) {
         updatedService = await this.serviceRepository.updateServiceStatus(
           bossId,
           serviceId
         );
-      }
 
+        if (!!updatedService) {
+          io.emit("service-updated", 1);
+        } else {
+          io.emit("service-updated", 0);
+        }
+      }
       return updatedService;
     } catch (err) {
       throw err;

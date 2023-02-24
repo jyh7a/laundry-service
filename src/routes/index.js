@@ -31,6 +31,7 @@ router.use("/users", usersRouter);
 
 // services
 router.use("/customers/services", auth_middleware, customersServicesRouter);
+
 router.use(
   "/bosses/services",
   auth_middleware,
